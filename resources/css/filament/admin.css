@@ -1,0 +1,4 @@
+/* Example: Change the sidebar background to dark blue */
+.filament-sidebar {
+    background-color: #1e3a8a !important; /* Use any color you like */
+}
