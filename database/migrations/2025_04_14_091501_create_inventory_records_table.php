@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('inventory_records', function (Blueprint $table) {
             $table->id();
+            $table->string('supplier_name');
             $table->enum('item_type', ['Product', 'Raw Material']);
             $table->string('item_name');
             $table->decimal('quantity_in', 10, 2);
             $table->decimal('quantity_out', 10, 2);
+            $table->decimal('damaged', 10, 2);
             $table->string('storage_location');
             $table->date('record_date');
             $table->timestamps();
+
         });
     }
 

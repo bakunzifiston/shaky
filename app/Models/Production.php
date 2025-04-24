@@ -14,10 +14,10 @@ class Production extends Model
         'batch_id',
         'product_id',
         'quantity_produced',
+        'damaged',
         'row_materials_used',
         'production_date',
         'responsible_staff',
-
         'quality_control_notes',
         // Add any other fields you are saving to the database
     ];

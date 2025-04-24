@@ -16,4 +16,5 @@ class Product extends Model
         'description',
         // Add any other fields you are saving to the database
     ];
+    
 }

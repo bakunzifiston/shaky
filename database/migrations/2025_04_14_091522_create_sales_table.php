@@ -21,9 +21,9 @@ return new class extends Migration
             $table->decimal('selling_price', 10, 2);
             $table->decimal('total_revenue', 12, 2);
             $table->enum('payment_status', ['Paid', 'Pending', 'Credit']);
-            $table->enum('delivery_status', ['Delivered', 'Pending', 'In Transit']);
+            $table->enum('delivery_status', ['Delivered', 'Pending', 'Returned']);
             $table->string('sales_channel');
-            $table->string('invoice_number');
+            $table->string('invoice_number')->nullable();
             $table->date('sale_date');
             $table->timestamps();
         });

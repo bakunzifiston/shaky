@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('batch_id')->unique();
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->decimal('quantity_produced', 10, 2);
+            $table->decimal('damaged', 10, 2);
             $table->json('raw_materials_used')->nullable(); // Optional for now
             $table->date('production_date');
             $table->string('responsible_staff')->nullable();

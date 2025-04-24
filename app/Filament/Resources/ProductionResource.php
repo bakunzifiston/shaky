@@ -34,6 +34,11 @@ class ProductionResource extends Resource
                 Forms\Components\TextInput::make('quantity_produced')
                     ->required()
                     ->numeric(),
+                Forms\Components\TextInput::make('damaged')
+                    ->numeric()
+                    ->default(0)
+                    ->required(),
+                    
                 Forms\Components\Textarea::make('raw_materials_used')
                     ->columnSpanFull(),
                 Forms\Components\DatePicker::make('production_date')
@@ -55,6 +60,9 @@ class ProductionResource extends Resource
                 Tables\Columns\TextColumn::make('product.name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('quantity_produced')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('damaged')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('production_date')

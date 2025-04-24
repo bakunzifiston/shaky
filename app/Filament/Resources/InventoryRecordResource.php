@@ -23,8 +23,15 @@ class InventoryRecordResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('item_type')
-                    ->required(),
+                Forms\Components\TextInput::make('supplier_name')
+                ->required(),
+                Forms\Components\Select::make('item_type')
+                ->required()
+                ->options([
+                    'Product' => 'Product',
+                    'Raw Material' => 'Raw Material',
+                ]),
+            
                 Forms\Components\TextInput::make('item_name')
                     ->required()
                     ->maxLength(255),
@@ -32,6 +39,9 @@ class InventoryRecordResource extends Resource
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('quantity_out')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('damaged')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('storage_location')
@@ -46,6 +56,7 @@ class InventoryRecordResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('supplier_name'),
                 Tables\Columns\TextColumn::make('item_type'),
                 Tables\Columns\TextColumn::make('item_name')
                     ->searchable(),
@@ -53,6 +64,9 @@ class InventoryRecordResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('quantity_out')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('damaged')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('storage_location')

@@ -34,16 +34,34 @@ class SaleResource extends Resource
                 Select::make('product_id')
                     ->relationship('product', 'name')
                     ->required(),
-                Forms\Components\TextInput::make('quantity_sold')
+                    Forms\Components\TextInput::make('quantity_sold')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                        $sellingPrice = $get('selling_price');
+                        if (is_numeric($sellingPrice) && is_numeric($state)) {
+                            $set('total_revenue', $sellingPrice * $state);
+                        }
+                    }),
+                
                 Forms\Components\TextInput::make('selling_price')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                        $quantitySold = $get('quantity_sold');
+                        if (is_numeric($quantitySold) && is_numeric($state)) {
+                            $set('total_revenue', $quantitySold * $state);
+                        }
+                    }),
+                
                 Forms\Components\TextInput::make('total_revenue')
-                    ->required()
-                    ->numeric(),
-                    Select::make('payment_status')
+                ->numeric()
+                ->readOnly()
+                ->required(),
+                
+                Select::make('payment_status')
                     ->required()
                     ->options([
                         'Paid' => 'Paid',
@@ -61,11 +79,17 @@ class SaleResource extends Resource
                     ])
                     ->label('Delivery Status'),
                 
-                Forms\Components\TextInput::make('sales_channel')
+                    Forms\Components\Select::make('sales_channel')
+                    ->label('Sales Channel')
                     ->required()
-                    ->maxLength(255),
+                    ->options([
+                        'Momo Pay' => 'Momo Pay',
+                        'Card' => 'Card',
+                        'Cash' => 'Cash',
+                    ])
+                    ->searchable(),
                 Forms\Components\TextInput::make('invoice_number')
-                    ->required()
+
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('sale_date')
                     ->required(),
