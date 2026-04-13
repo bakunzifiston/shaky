@@ -11,12 +11,13 @@ class Employee extends Model
 
     // Allow mass assignment for these attributes
     protected $fillable = [
+        'employee_id',
         'name',
         'email',
         'position',
         'phone',
         'province',
         'district',
-        // Add any other fields you are saving to the database
+        'photo',
     ];
 }

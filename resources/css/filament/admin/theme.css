@@ -1,47 +1,27 @@
 @import '../../../../vendor/filament/filament/resources/css/base.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Base layer: general HTML & layout tweaks */
-@layer base {
-    :root.dark {
-        color-scheme: dark;
-    }
-
-    [data-field-wrapper] {
-        scroll-margin-top: 8rem;
-    }
-
-    body {
-        @apply bg-white text-gray-800 dark:bg-gray-900 dark:text-gray-100;
-    }
+/* Sidebar styling */
+.filament-sidebar {
+    background-color: #006666;
+    color: white;
 }
 
-/* Component layer: Filament custom UI tweaks */
-@layer components {
-    .filament-sidebar {
-        @apply bg-[#006666] text-white;
-    }
-
-    .filament-navbar {
-        @apply bg-[#003333] text-white;
-    }
-
-    .filament-card {
-        @apply bg-white dark:bg-gray-800 rounded-xl shadow-md;
-    }
+.filament-navbar {
+    background-color: #003333;
+    color: white;
 }
 
-/* Utility layer: optional small utilities */
-@layer utilities {
-    .scrollbar-hide {
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
+.filament-card {
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
 
-    .scrollbar-hide::-webkit-scrollbar {
-        display: none;
-    }
+/* Scrollbar hide utility */
+.scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
 }

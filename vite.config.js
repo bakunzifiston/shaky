@@ -2,9 +2,6 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 
-// Correcting the path based on where your theme.css is located
-import './resources/css/filament/admin/theme.css';
-
 export default defineConfig({
     plugins: [
         laravel({

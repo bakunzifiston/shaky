@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->string('sales_id')->unique();
+            $table->string('barcode')->nullable();
             $table->string('customer_name');
             $table->string('customer_Phone')->nullable();
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
+             $table->foreignId('production_id')->constrained('productions')->onDelete('cascade');
             $table->decimal('quantity_sold', 10, 2);
             $table->decimal('selling_price', 10, 2);
             $table->decimal('total_revenue', 12, 2);

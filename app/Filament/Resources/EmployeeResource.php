@@ -20,6 +20,24 @@ class EmployeeResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
+            Forms\Components\FileUpload::make('photo')
+                ->label('Profile Photo')
+                ->image()
+                ->avatar()
+                ->disk('public')
+                ->directory('employee-photos')
+                ->visibility('public')
+                ->imageResizeMode('cover')
+                ->imageCropAspectRatio('1:1')
+                ->imageResizeTargetWidth('300')
+                ->imageResizeTargetHeight('300')
+                ->columnSpanFull(),
+
+            Forms\Components\TextInput::make('employee_id')
+                ->required()
+                ->unique(ignoreRecord: true)
+                ->label('Employee ID'),
+
             TextInput::make('name')
                 ->required()
                 ->maxLength(255),
@@ -38,7 +56,7 @@ class EmployeeResource extends Resource
                 ->maxLength(255)
                 ->default(null),
 
-                Select::make('province')
+            Select::make('province')
                 ->label('Province')
                 ->options([
                     'Kigali City' => 'Kigali City',
@@ -108,6 +126,14 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('photo')
+                    ->label('Photo')
+                    ->circular()
+                    ->defaultImageUrl(fn ($record) => 'https://ui-avatars.com/api/?name=' . urlencode($record->name ?? 'E') . '&color=7F9CF5&background=EBF4FF'),
+                Tables\Columns\TextColumn::make('employee_id')
+                    ->label('Employee ID')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('position')->searchable(),
                 Tables\Columns\TextColumn::make('phone')

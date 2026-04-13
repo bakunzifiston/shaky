@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('batch_id')->unique();
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->string('barcode')->nullable();
             $table->decimal('quantity_produced', 10, 2);
             $table->decimal('damaged', 10, 2);
-            $table->json('raw_materials_used')->nullable(); // Optional for now
+            $table->json('raw_materials_used')->nullable();
+            $table->foreignId('inventory_record_id')->constrained()->onDelete('cascade'); // Optional for now
             $table->date('production_date');
             $table->string('responsible_staff')->nullable();
             $table->text('quality_control_notes')->nullable();

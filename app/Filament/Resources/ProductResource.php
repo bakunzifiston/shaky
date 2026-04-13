@@ -23,15 +23,22 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
+                
                 Forms\Components\TextInput::make('type')
+                    ->label('Name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('name')
+                    ->label('Type')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('barcode')
+                    ->maxLength(255)
+                    ->default(null),
                 Forms\Components\TextInput::make('description')
                     ->maxLength(255)
                     ->default(null),
+
             ]);
     }
 
@@ -39,9 +46,14 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('type')
+                
+                ->label('Name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('name')
+                ->label('Type')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('barcode')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),

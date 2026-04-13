@@ -14,6 +14,7 @@ class Product extends Model
         'name',
         'type',
         'description',
+        'barcode'
         // Add any other fields you are saving to the database
     ];
     

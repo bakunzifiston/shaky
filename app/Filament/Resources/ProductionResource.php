@@ -3,16 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductionResource\Pages;
-use App\Filament\Resources\ProductionResource\RelationManagers;
 use App\Models\Production;
+use App\Models\InventoryRecord;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\TextInput;
 
 class ProductionResource extends Resource
 {
@@ -27,25 +27,58 @@ class ProductionResource extends Resource
                 Forms\Components\TextInput::make('batch_id')
                     ->required()
                     ->maxLength(255),
+
                 Select::make('product_id')
-                    ->relationship('product', 'name')
+                    ->relationship('product', 'type')
                     ->required(),
+
+Repeater::make('inventory_record_id')
+    ->label('Raw Materials Used')
+    ->schema([
+        Select::make('inventory_id')
+            ->label('Select Raw Material')
+            ->options(\App\Models\InventoryRecord::pluck('item_name', 'id'))
+            ->searchable()
+            ->required(),
+
+        TextInput::make('quantity_used')
+            ->numeric()
+            ->label('Quantity Used')
+            ->required(),
+    ])
+    ->columns(2)
+    ->defaultItems(1)
+    ->createItemButtonLabel('Add Material')
+    ->required(),
 
                 Forms\Components\TextInput::make('quantity_produced')
                     ->required()
                     ->numeric(),
+
                 Forms\Components\TextInput::make('damaged')
                     ->numeric()
                     ->default(0)
                     ->required(),
-                    
-                Forms\Components\Textarea::make('raw_materials_used')
-                    ->columnSpanFull(),
+
                 Forms\Components\DatePicker::make('production_date')
                     ->required(),
+
                 Forms\Components\TextInput::make('responsible_staff')
                     ->maxLength(255)
                     ->default(null),
+
+                Select::make('barcode')
+                    ->label('Select Barcode')
+                    ->options([
+                        '6784293819719' => '6784293819719',
+                        '5781429281069' => '5781429281069',
+                        '5675098214278' => '5675098214278',
+                        '3078055640615' => '3078055640615',
+                    ])
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+
                 Forms\Components\Textarea::make('quality_control_notes')
                     ->columnSpanFull(),
             ]);
@@ -55,21 +88,63 @@ class ProductionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('batch_id')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('product.name')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('batch_id')->searchable(),
+                Tables\Columns\TextColumn::make('product.type')->searchable(),
+                Tables\Columns\TextColumn::make('inventory_record_id')
+    ->label('Raw Materials')
+    ->formatStateUsing(function ($state) {
+        if (is_string($state)) {
+            $state = json_decode($state, true);
+        }
+
+        if (!is_array($state)) {
+            return '-';
+        }
+
+        // Build "Material (Qty)" list
+        return collect($state)->map(function ($item) {
+            $name = \App\Models\InventoryRecord::find($item['inventory_id'])->item_name ?? 'Unknown';
+            $qty = $item['quantity_used'] ?? 0;
+            return "{$name} ({$qty})";
+        })->join(', ');
+    }),
+
+Tables\Columns\TextColumn::make('inventory_record_id')
+    ->label('Raw Materials & Qty Used')
+    ->formatStateUsing(function ($record) {
+        $materials = $record->inventory_record_id;
+
+        // Ensure it’s an array
+        if (!is_array($materials)) {
+            $materials = json_decode($materials, true) ?? [];
+        }
+
+        // Nothing found
+        if (empty($materials)) {
+            return '—';
+        }
+
+        // Build list like: Maize - 10, Wheat - 5
+        return collect($materials)->map(function ($item) {
+            $inventory = \App\Models\InventoryRecord::find($item['inventory_id'] ?? null);
+            $name = $inventory?->item_name ?? 'Unknown';
+            $qty = $item['quantity_used'] ?? 0;
+            return "{$name}: {$qty}";
+        })->join(', ');
+    })
+    ->wrap(),
                 Tables\Columns\TextColumn::make('quantity_produced')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->formatStateUsing(fn ($state) => $state . ' bottles'),
                 Tables\Columns\TextColumn::make('damaged')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('production_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('responsible_staff')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('responsible_staff')->searchable(),
+                Tables\Columns\TextColumn::make('barcode')->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -78,9 +153,6 @@ class ProductionResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -95,9 +167,7 @@ class ProductionResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
