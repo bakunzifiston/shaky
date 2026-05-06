@@ -7,8 +7,9 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
-                'resources/css/filament/admin/theme.css',  // Add your theme.css here
+                'resources/css/admin/app.css',
                 'resources/js/app.js',
+                'resources/js/admin/app.js',
             ],
             refresh: true,
         }),

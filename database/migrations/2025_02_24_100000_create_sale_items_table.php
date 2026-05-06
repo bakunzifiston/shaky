@@ -21,20 +21,22 @@ return new class extends Migration
                 $table->timestamps();
             });
 
-            // Migrate existing sales to sale_items
-            $sales = DB::table('sales')->get();
-            foreach ($sales as $sale) {
-                if ($sale->product_id && $sale->production_id) {
-                    DB::table('sale_items')->insert([
-                        'sale_id' => $sale->id,
-                        'product_id' => $sale->product_id,
-                        'production_id' => $sale->production_id,
-                        'quantity_sold' => $sale->quantity_sold,
-                        'unit_price' => $sale->selling_price,
-                        'line_total' => $sale->total_revenue,
-                        'created_at' => $sale->created_at,
-                        'updated_at' => $sale->updated_at,
-                    ]);
+            // Migrate existing sales to sale_items only when legacy sales table exists.
+            if (Schema::hasTable('sales')) {
+                $sales = DB::table('sales')->get();
+                foreach ($sales as $sale) {
+                    if ($sale->product_id && $sale->production_id) {
+                        DB::table('sale_items')->insert([
+                            'sale_id' => $sale->id,
+                            'product_id' => $sale->product_id,
+                            'production_id' => $sale->production_id,
+                            'quantity_sold' => $sale->quantity_sold,
+                            'unit_price' => $sale->selling_price,
+                            'line_total' => $sale->total_revenue,
+                            'created_at' => $sale->created_at,
+                            'updated_at' => $sale->updated_at,
+                        ]);
+                    }
                 }
             }
         }
