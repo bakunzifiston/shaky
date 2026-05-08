@@ -44,30 +44,43 @@
             </div>
         @endif
 
+        @php($months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'])
+        @php($hasProductionData = collect($monthly_production)->sum() > 0)
+        @php($hasSalesData = collect($monthly_sales_revenue)->sum() > 0)
         <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
             <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <h3 class="text-sm font-semibold text-slate-800">Monthly Production Quantity</h3>
-                @php($maxProd = max(1, ...$monthly_production))
-                <div class="mt-4 flex h-48 items-end gap-2">
-                    @foreach ($monthly_production as $i => $value)
-                        <div class="flex-1">
-                            <div class="w-full rounded-t bg-[#0b4e5b]" style="height: {{ ($value / $maxProd) * 100 }}%"></div>
-                            <p class="mt-1 text-center text-[10px] text-slate-500">{{ ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][$i] }}</p>
-                        </div>
-                    @endforeach
-                </div>
+                @if ($hasProductionData)
+                    @php($maxProd = max(1, ...$monthly_production))
+                    <div class="mt-4 flex h-48 items-end gap-2">
+                        @foreach ($monthly_production as $i => $value)
+                            <div class="flex flex-1 flex-col items-center justify-end">
+                                <p class="mb-1 text-[10px] text-slate-500">{{ number_format((float) $value, 0) }}</p>
+                                <div class="w-full rounded-t bg-[#0b4e5b]" style="height: {{ $value > 0 ? max((($value / $maxProd) * 100), 4) : 0 }}%"></div>
+                                <p class="mt-1 text-center text-[10px] text-slate-500">{{ $months[$i] }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p class="mt-4 text-sm text-slate-500">No production data for the selected period.</p>
+                @endif
             </div>
             <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <h3 class="text-sm font-semibold text-slate-800">Monthly Sales Revenue</h3>
-                @php($maxSales = max(1, ...$monthly_sales_revenue))
-                <div class="mt-4 flex h-48 items-end gap-2">
-                    @foreach ($monthly_sales_revenue as $i => $value)
-                        <div class="flex-1">
-                            <div class="w-full rounded-t bg-[#d1b89c]" style="height: {{ ($value / $maxSales) * 100 }}%"></div>
-                            <p class="mt-1 text-center text-[10px] text-slate-500">{{ ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][$i] }}</p>
-                        </div>
-                    @endforeach
-                </div>
+                @if ($hasSalesData)
+                    @php($maxSales = max(1, ...$monthly_sales_revenue))
+                    <div class="mt-4 flex h-48 items-end gap-2">
+                        @foreach ($monthly_sales_revenue as $i => $value)
+                            <div class="flex flex-1 flex-col items-center justify-end">
+                                <p class="mb-1 text-[10px] text-slate-500">{{ number_format((float) $value, 0) }}</p>
+                                <div class="w-full rounded-t bg-[#d1b89c]" style="height: {{ $value > 0 ? max((($value / $maxSales) * 100), 4) : 0 }}%"></div>
+                                <p class="mt-1 text-center text-[10px] text-slate-500">{{ $months[$i] }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p class="mt-4 text-sm text-slate-500">No sales revenue data for the selected period.</p>
+                @endif
             </div>
         </div>
     </section>

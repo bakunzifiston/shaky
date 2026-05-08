@@ -68,8 +68,8 @@ class AdminDashboardService
             'end_date' => $end?->format('Y-m-d'),
             'stats' => $stats,
             'production_by_product' => $productionByProduct,
-            'monthly_production' => $this->monthlyProduction(),
-            'monthly_sales_revenue' => $this->monthlySalesRevenue(),
+            'monthly_production' => $this->monthlyProduction($start, $end),
+            'monthly_sales_revenue' => $this->monthlySalesRevenue($start, $end),
         ];
     }
 
@@ -95,9 +95,11 @@ class AdminDashboardService
         return [null, null];
     }
 
-    private function monthlyProduction(): array
+    private function monthlyProduction(?Carbon $start = null, ?Carbon $end = null): array
     {
-        $rows = Production::selectRaw('MONTH(production_date) as month, SUM(quantity_produced) as total')
+        $rows = Production::query()
+            ->selectRaw('MONTH(production_date) as month, SUM(quantity_produced) as total')
+            ->when($start && $end, fn ($query) => $query->whereBetween('production_date', [$start, $end]))
             ->groupBy('month')
             ->orderBy('month')
             ->pluck('total', 'month');
@@ -105,9 +107,11 @@ class AdminDashboardService
         return collect(range(1, 12))->map(fn ($i) => (float) ($rows[$i] ?? 0))->all();
     }
 
-    private function monthlySalesRevenue(): array
+    private function monthlySalesRevenue(?Carbon $start = null, ?Carbon $end = null): array
     {
-        $rows = Sale::selectRaw('MONTH(sale_date) as month, SUM(total_revenue) as total')
+        $rows = Sale::query()
+            ->selectRaw('MONTH(sale_date) as month, SUM(total_revenue) as total')
+            ->when($start && $end, fn ($query) => $query->whereBetween('sale_date', [$start, $end]))
             ->groupBy('month')
             ->orderBy('month')
             ->pluck('total', 'month');
