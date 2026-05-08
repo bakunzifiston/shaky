@@ -50,26 +50,26 @@
             {{ $slot }}
         </main>
 
-        <footer class="mt-16 border-t border-slate-200 bg-white">
+        <footer class="mt-16 border-t border-[#083f49] bg-[#0b4e5b] text-white">
             <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-4 lg:px-8">
                 <div>
                     <h3 class="text-base font-semibold">SHAKY Ltd</h3>
-                    <p class="mt-3 text-sm text-slate-600">Kamonyi, Rwanda</p>
-                    <p class="mt-2 text-sm text-slate-600">+250 7XX XXX XXX</p>
-                    <p class="mt-2 text-sm text-slate-600">info@shakyltd.rw</p>
+                    <p class="mt-3 text-sm text-slate-200">Kamonyi, Rwanda</p>
+                    <p class="mt-2 text-sm text-slate-200">+250 7XX XXX XXX</p>
+                    <p class="mt-2 text-sm text-slate-200">info@shakyltd.rw</p>
                 </div>
                 <div>
                     <h3 class="text-base font-semibold">Quick Links</h3>
-                    <ul class="mt-3 space-y-2 text-sm text-slate-600">
-                        <li><a href="{{ route('storefront.home') }}" class="hover:text-[#0b4e5b]">Home</a></li>
-                        <li><a href="{{ route('storefront.about') }}" class="hover:text-[#0b4e5b]">About</a></li>
-                        <li><a href="{{ route('storefront.shop') }}" class="hover:text-[#0b4e5b]">Shop</a></li>
-                        <li><a href="{{ route('storefront.contact') }}" class="hover:text-[#0b4e5b]">Contact Us</a></li>
+                    <ul class="mt-3 space-y-2 text-sm text-slate-200">
+                        <li><a href="{{ route('storefront.home') }}" class="hover:text-[#d1b89c]">Home</a></li>
+                        <li><a href="{{ route('storefront.about') }}" class="hover:text-[#d1b89c]">About</a></li>
+                        <li><a href="{{ route('storefront.shop') }}" class="hover:text-[#d1b89c]">Shop</a></li>
+                        <li><a href="{{ route('storefront.contact') }}" class="hover:text-[#d1b89c]">Contact Us</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="text-base font-semibold">Product Categories</h3>
-                    <ul class="mt-3 space-y-2 text-sm text-slate-600">
+                    <ul class="mt-3 space-y-2 text-sm text-slate-200">
                         <li>Neza Chill (Mild Chili Sauce)</li>
                         <li>Neza Heat (Spicy Chili Sauce)</li>
                         <li>Neza Chill Oil (Chili-infused Oil)</li>
@@ -86,7 +86,7 @@
                         <input type="email" name="email" required placeholder="Email address" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
                         <button class="w-full rounded-lg bg-[#0b4e5b] px-3 py-2 text-sm font-medium text-white hover:bg-[#083f49]">Subscribe</button>
                     </form>
-                    <p class="mt-3 text-xs text-slate-500">Follow us: Facebook | Instagram | LinkedIn</p>
+                    <p class="mt-3 text-xs text-slate-200">Follow us: Facebook | Instagram | LinkedIn</p>
                 </div>
             </div>
         </footer>

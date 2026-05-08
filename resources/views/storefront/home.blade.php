@@ -58,6 +58,22 @@
         </div>
     </section>
 
+    <section class="bg-[#f8fafc]">
+        <div class="mx-auto max-w-7xl px-4 py-14 lg:px-8">
+            <h2 class="text-2xl font-bold">Mission & Vision</h2>
+            <div class="mt-6 grid gap-4 md:grid-cols-2">
+                <article class="rounded-xl border border-slate-200 bg-white p-6">
+                    <h3 class="font-semibold">Mission</h3>
+                    <p class="mt-2 text-sm text-slate-600">Provide high-quality, flavorful chili products that enhance culinary experiences while supporting local farmers and ensuring sustainable production.</p>
+                </article>
+                <article class="rounded-xl border border-slate-200 bg-white p-6">
+                    <h3 class="font-semibold">Vision</h3>
+                    <p class="mt-2 text-sm text-slate-600">To become a leading chili processing brand in Rwanda and beyond, known for premium quality and unique flavors.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <section class="bg-white">
         <div class="mx-auto max-w-7xl px-4 py-14 lg:px-8">
             <h2 class="text-2xl font-bold">Product Categories</h2>
@@ -236,19 +252,4 @@
         </div>
     </section>
 
-    <section class="bg-[#f8fafc]">
-        <div class="mx-auto max-w-7xl px-4 py-14 lg:px-8">
-            <h2 class="text-2xl font-bold">Mission & Vision</h2>
-            <div class="mt-6 grid gap-4 md:grid-cols-2">
-                <article class="rounded-xl border border-slate-200 bg-white p-6">
-                    <h3 class="font-semibold">Mission</h3>
-                    <p class="mt-2 text-sm text-slate-600">Provide high-quality, flavorful chili products that enhance culinary experiences while supporting local farmers and ensuring sustainable production.</p>
-                </article>
-                <article class="rounded-xl border border-slate-200 bg-white p-6">
-                    <h3 class="font-semibold">Vision</h3>
-                    <p class="mt-2 text-sm text-slate-600">To become a leading chili processing brand in Rwanda and beyond, known for premium quality and unique flavors.</p>
-                </article>
-            </div>
-        </div>
-    </section>
 </x-layouts.storefront>
