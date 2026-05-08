@@ -2,7 +2,7 @@
 
 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
     <div>
-        <label for="type" class="mb-1 block text-sm font-medium text-slate-700">Name</label>
+        <label for="type" class="mb-1 block text-sm font-medium text-slate-700">Type</label>
         <input
             id="type"
             name="type"
@@ -16,7 +16,7 @@
     </div>
 
     <div>
-        <label for="name" class="mb-1 block text-sm font-medium text-slate-700">Type</label>
+        <label for="name" class="mb-1 block text-sm font-medium text-slate-700">Name</label>
         <input
             id="name"
             name="name"
@@ -53,6 +53,42 @@
             class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-teal-600 focus:outline-none"
         >
         @error('description')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+    </div>
+
+    <div>
+        <label for="price" class="mb-1 block text-sm font-medium text-slate-700">Price</label>
+        <input
+            id="price"
+            name="price"
+            type="number"
+            step="0.01"
+            min="0"
+            value="{{ old('price', $product->price ?? 0) }}"
+            required
+            class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-teal-600 focus:outline-none"
+        >
+        @error('price')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+    </div>
+
+    <div>
+        <label for="product_image" class="mb-1 block text-sm font-medium text-slate-700">Product Image</label>
+        <input
+            id="product_image"
+            name="product_image"
+            type="file"
+            accept="image/*"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-teal-600 focus:outline-none"
+        >
+        <p class="mt-1 text-xs text-slate-500">JPG, PNG, WEBP up to 5MB.</p>
+        @error('product_image')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+
+        @if (!empty($product?->image_path))
+            <img
+                src="{{ asset('storage/' . $product->image_path) }}"
+                alt="{{ $product->name }}"
+                class="mt-3 h-20 w-20 rounded-lg object-cover ring-1 ring-slate-200"
+            >
+        @endif
     </div>
 </div>
 

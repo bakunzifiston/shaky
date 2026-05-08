@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\Ecommerce\Modules\ProductManagementController;
 use App\Http\Controllers\Admin\Ecommerce\Modules\ReturnManagementController;
 use App\Http\Controllers\Admin\Ecommerce\Modules\ReviewManagementController;
 use App\Http\Controllers\Admin\Ecommerce\Modules\ShippingManagementController;
+use App\Http\Controllers\Admin\Ecommerce\Modules\VideoManagementController;
 use App\Http\Controllers\Admin\Ecommerce\Modules\VariantManagementController;
 use App\Http\Controllers\Admin\Ecommerce\SalesController as EcommerceSalesController;
 use App\Http\Controllers\Admin\InventoryRecordController;
@@ -63,6 +64,9 @@ Route::prefix('admin-app')
             Route::get('/catalog/categories', CategoryManagementController::class)->name('catalog.categories');
             Route::get('/catalog/variants', VariantManagementController::class)->name('catalog.variants');
             Route::get('/catalog/images', ProductImageManagementController::class)->name('catalog.images');
+            Route::get('/catalog/videos', [VideoManagementController::class, 'index'])->name('catalog.videos');
+            Route::post('/catalog/videos', [VideoManagementController::class, 'store'])->name('catalog.videos.store');
+            Route::delete('/catalog/videos/{video}', [VideoManagementController::class, 'destroy'])->name('catalog.videos.destroy');
 
             Route::get('/customers', EcommerceCustomersController::class)->name('customers');
             Route::get('/customers/profiles', CustomerManagementController::class)->name('customers.profiles');

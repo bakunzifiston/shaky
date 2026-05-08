@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\UpdateProductRequest;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -42,7 +43,12 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request): RedirectResponse
     {
-        Product::create($request->validated());
+        $data = $request->safe()->except(['product_image']);
+        if ($request->hasFile('product_image')) {
+            $data['image_path'] = $request->file('product_image')->store('products', 'public');
+        }
+
+        Product::create($data);
 
         return redirect()
             ->route('admin.products.index')
@@ -61,7 +67,16 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, Product $product): RedirectResponse
     {
-        $product->update($request->validated());
+        $data = $request->safe()->except(['product_image']);
+        if ($request->hasFile('product_image')) {
+            if ($product->image_path) {
+                Storage::disk('public')->delete($product->image_path);
+            }
+
+            $data['image_path'] = $request->file('product_image')->store('products', 'public');
+        }
+
+        $product->update($data);
 
         return redirect()
             ->route('admin.products.show', $product)
@@ -70,6 +85,10 @@ class ProductController extends Controller
 
     public function destroy(Product $product): RedirectResponse
     {
+        if ($product->image_path) {
+            Storage::disk('public')->delete($product->image_path);
+        }
+
         $product->delete();
 
         return redirect()

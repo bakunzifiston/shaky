@@ -26,6 +26,11 @@
                 <p class="mt-2 text-sm text-slate-600">Manage product galleries, thumbnails, and storefront media quality.</p>
                 <a href="{{ route('admin.ecommerce.catalog.images') }}" class="mt-3 inline-flex text-sm font-medium text-sky-700 hover:text-sky-800">Open module</a>
             </article>
+            <article class="rounded-2xl border border-slate-200 bg-white p-5">
+                <h3 class="text-base font-semibold text-slate-900">Videos</h3>
+                <p class="mt-2 text-sm text-slate-600">Upload short storefront videos and control the order shown on home page.</p>
+                <a href="{{ route('admin.ecommerce.catalog.videos') }}" class="mt-3 inline-flex text-sm font-medium text-sky-700 hover:text-sky-800">Open module</a>
+            </article>
         </div>
     </section>
 </x-layouts.admin>

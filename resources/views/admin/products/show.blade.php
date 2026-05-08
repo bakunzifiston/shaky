@@ -20,6 +20,13 @@
         @endif
 
         <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+            @if ($product->image_path)
+                <div class="mb-6">
+                    <p class="text-sm text-slate-500">Product Image</p>
+                    <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="mt-2 h-24 w-24 rounded-lg object-cover ring-1 ring-slate-200">
+                </div>
+            @endif
+
             <dl class="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div><dt class="text-sm text-slate-500">Name</dt><dd class="mt-1 text-sm font-medium text-slate-900">{{ $product->type }}</dd></div>
                 <div><dt class="text-sm text-slate-500">Type</dt><dd class="mt-1 text-sm font-medium text-slate-900">{{ $product->name }}</dd></div>

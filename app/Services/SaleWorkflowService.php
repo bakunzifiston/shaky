@@ -70,6 +70,7 @@ class SaleWorkflowService
         return [
             'customer_name' => $data['customer_name'],
             'customer_Phone' => $data['customer_Phone'] ?? null,
+            'barcode' => $data['barcode'] ?? null,
             'invoice_number' => $data['invoice_number'] ?? null,
             'sale_date' => $data['sale_date'],
             'payment_status' => $data['payment_status'],

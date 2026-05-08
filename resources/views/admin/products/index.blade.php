@@ -30,6 +30,7 @@
                 <thead class="bg-slate-50">
                     @php($nextDirection = $direction === 'asc' ? 'desc' : 'asc')
                     <tr>
+                        <th class="px-4 py-3 text-left font-semibold text-slate-600">Image</th>
                         <th class="px-4 py-3 text-left font-semibold text-slate-600">
                             <a href="{{ route('admin.products.index', array_merge(request()->query(), ['sort' => 'type', 'direction' => $sort === 'type' ? $nextDirection : 'asc'])) }}">Name</a>
                         </th>
@@ -44,6 +45,13 @@
                 <tbody class="divide-y divide-slate-100">
                     @forelse ($products as $product)
                         <tr>
+                            <td class="px-4 py-3">
+                                @if ($product->image_path)
+                                    <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="h-10 w-10 rounded-lg object-cover ring-1 ring-slate-200">
+                                @else
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-xs text-slate-500 ring-1 ring-slate-200">N/A</div>
+                                @endif
+                            </td>
                             <td class="px-4 py-3 text-slate-800">{{ $product->type }}</td>
                             <td class="px-4 py-3 text-slate-700">{{ $product->name }}</td>
                             <td class="px-4 py-3 text-slate-700">{{ $product->barcode }}</td>
@@ -64,7 +72,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-4 py-8 text-center text-slate-500">No products found.</td>
+                            <td colspan="6" class="px-4 py-8 text-center text-slate-500">No products found.</td>
                         </tr>
                     @endforelse
                 </tbody>

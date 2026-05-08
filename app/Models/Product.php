@@ -14,8 +14,10 @@ class Product extends Model
         'name',
         'type',
         'description',
-        'barcode'
+        'barcode',
+        'price',
+        'image_path',
         // Add any other fields you are saving to the database
     ];
-    
+
 }

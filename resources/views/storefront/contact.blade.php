@@ -1,7 +1,7 @@
 <x-layouts.storefront title="Contact Us">
     <section class="mx-auto max-w-6xl px-4 py-12 lg:px-8">
         <h1 class="text-3xl font-bold">Contact Us</h1>
-        <p class="mt-2 text-slate-600">Reach SHAKY Ltd for business inquiries, partnerships, and product information.</p>
+        <p class="mt-2 text-slate-600">Reach SHAKY Ltd for business inquiries, wholesale distribution, farmer partnerships, retail partnerships, and product information.</p>
 
         @if (session('status'))
             <div class="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{{ session('status') }}</div>
@@ -28,6 +28,7 @@
                     <p class="mt-2 text-sm text-slate-600">Phone: +250 7XX XXX XXX</p>
                     <p class="mt-2 text-sm text-slate-600">Email: info@shakyltd.rw</p>
                     <p class="mt-2 text-sm text-slate-600">Business inquiries: business@shakyltd.rw</p>
+                    <p class="mt-2 text-sm text-slate-600">Products: Neza Chill, Neza Heat, Neza Chill Oil</p>
                 </article>
                 <article class="rounded-xl border border-slate-200 bg-white p-6">
                     <h2 class="text-xl font-semibold">Google Maps</h2>

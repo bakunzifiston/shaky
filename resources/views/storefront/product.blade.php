@@ -6,15 +6,19 @@
 
         <div class="grid gap-8 lg:grid-cols-2">
             <div class="rounded-2xl border border-slate-200 bg-white p-8">
-                <div class="flex h-72 items-center justify-center rounded-xl bg-gradient-to-br from-[#fef7ef] to-[#f8fafc] text-center text-slate-500">
-                    Premium SHAKY Product Visual
-                </div>
+                @if ($details->image_path)
+                    <img src="{{ asset('storage/' . $details->image_path) }}" alt="{{ $details->name }}" class="h-72 w-full rounded-xl object-cover">
+                @else
+                    <div class="flex h-72 items-center justify-center rounded-xl bg-gradient-to-br from-[#fef7ef] to-[#f8fafc] text-center text-slate-500">
+                        Premium SHAKY Product Visual
+                    </div>
+                @endif
             </div>
             <div>
-                <p class="text-xs uppercase tracking-wide text-slate-500">{{ $details->type }}</p>
                 <h1 class="mt-2 text-3xl font-bold">{{ $details->name }}</h1>
                 <p class="mt-4 text-slate-600">{{ $details->description ?: 'Premium chili product by SHAKY Ltd.' }}</p>
                 <div class="mt-5 space-y-2 text-sm">
+                    <p><span class="font-medium">Price:</span> RWF {{ number_format((float) $details->price, 2) }}</p>
                     <p><span class="font-medium">Stock available:</span> {{ number_format((float) $details->sellable_qty, 2) }}</p>
                     <p><span class="font-medium">Barcode:</span> {{ $details->barcode }}</p>
                 </div>

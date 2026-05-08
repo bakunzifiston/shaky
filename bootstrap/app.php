@@ -4,6 +4,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\EnsureAdminSession;
+use Illuminate\Http\Exceptions\PostTooLargeException;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -17,5 +20,15 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (PostTooLargeException $e, Request $request): Response {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Upload failed: request body is too large. Reduce file size or increase PHP post_max_size/upload_max_filesize.',
+                ], 413);
+            }
+
+            return back()->withErrors([
+                'video_files' => 'Upload failed: selected files are too large for current server limits. Increase PHP post_max_size/upload_max_filesize or upload smaller files.',
+            ]);
+        });
     })->create();

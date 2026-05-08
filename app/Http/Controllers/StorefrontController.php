@@ -6,13 +6,16 @@ use App\Models\ContactSubmission;
 use App\Models\InventoryRecord;
 use App\Models\Product;
 use App\Models\Production;
-use App\Models\Sale;
 use App\Models\SaleItem;
+use App\Models\StorefrontVideo;
+use App\Services\SaleWorkflowService;
+use App\Services\StorefrontCheckoutService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class StorefrontController extends Controller
@@ -21,11 +24,17 @@ class StorefrontController extends Controller
     {
         $products = $this->catalogQuery()->limit(6)->get();
         $bestSellers = $this->bestSellers(6);
+        $videos = StorefrontVideo::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->latest('id')
+            ->limit(6)
+            ->get();
         $categories = Product::query()->select('type')->distinct()->orderBy('type')->pluck('type');
         $partners = ['SIMBA', 'T2000', 'Deluxe Supermarket'];
         $promotions = $this->promotionBlocks();
 
-        return view('storefront.home', compact('products', 'bestSellers', 'categories', 'partners', 'promotions'));
+        return view('storefront.home', compact('products', 'bestSellers', 'videos', 'categories', 'partners', 'promotions'));
     }
 
     public function about(): View
@@ -170,6 +179,70 @@ class StorefrontController extends Controller
         return back()->with('status', 'Added to wishlist.');
     }
 
+    public function checkout(): View
+    {
+        $cart = collect(session('storefront_cart', []));
+        $rows = $this->hydrateCartRows($cart);
+        $subtotal = $rows->sum(fn ($row) => $row['line_total']);
+
+        return view('storefront.checkout', [
+            'rows' => $rows,
+            'subtotal' => $subtotal,
+        ]);
+    }
+
+    public function placeOrder(
+        Request $request,
+        SaleWorkflowService $workflow,
+        StorefrontCheckoutService $checkout
+    ): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:120'],
+            'email' => ['required', 'email', 'max:120'],
+            'phone' => ['required', 'string', 'max:50'],
+            'address' => ['required', 'string', 'max:255'],
+            'notes' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        $cart = collect(session('storefront_cart', []));
+        $rows = $this->hydrateCartRows($cart);
+        if ($rows->isEmpty()) {
+            return redirect()->route('storefront.cart')->with('status', 'Your cart is empty.');
+        }
+
+        try {
+            $items = $checkout->allocateItems($rows);
+        } catch (\InvalidArgumentException $e) {
+            return back()->withErrors(['checkout' => $e->getMessage()])->withInput();
+        }
+
+        if ($items === []) {
+            return back()->withErrors(['checkout' => 'No line items could be allocated.'])->withInput();
+        }
+
+        $invoicePayload = trim($validated['address'] . (isset($validated['notes']) && $validated['notes'] !== '' ? ' | ' . $validated['notes'] : ''));
+
+        $sale = $workflow->create([
+            'customer_name' => $validated['name'],
+            'customer_Phone' => $validated['phone'],
+            'barcode' => $validated['email'],
+            'invoice_number' => Str::limit($invoicePayload, 255),
+            'sale_date' => now()->toDateString(),
+            'payment_status' => 'Pending',
+            'delivery_status' => 'Pending',
+            'sales_channel' => 'Online Store',
+            'items' => $items,
+        ]);
+
+        session()->forget('storefront_cart');
+
+        return redirect()->route('storefront.home')->with(
+            'status',
+            'Order placed successfully. Reference: ' . $sale->sales_id . '. Our team will confirm delivery details shortly.'
+        );
+    }
+
     private function catalogQuery(): Builder
     {
         $inventorySub = InventoryRecord::query()
@@ -216,8 +289,8 @@ class StorefrontController extends Controller
     {
         return SaleItem::query()
             ->join('products', 'products.id', '=', 'sale_items.product_id')
-            ->selectRaw('products.id, products.type, products.name, products.barcode, SUM(sale_items.quantity_sold) as units_sold')
-            ->groupBy('products.id', 'products.type', 'products.name', 'products.barcode')
+            ->selectRaw('products.id, products.name, products.barcode, products.image_path, products.price, SUM(sale_items.quantity_sold) as units_sold')
+            ->groupBy('products.id', 'products.name', 'products.barcode', 'products.image_path', 'products.price')
             ->orderByDesc('units_sold')
             ->limit($limit)
             ->get();
@@ -228,11 +301,6 @@ class StorefrontController extends Controller
      */
     private function promotionBlocks(): array
     {
-        $stats = Sale::query()
-            ->selectRaw('SUM(CASE WHEN payment_status = "Paid" THEN total_revenue ELSE 0 END) as paid_revenue')
-            ->selectRaw('SUM(CASE WHEN delivery_status = "Returned" THEN 1 ELSE 0 END) as returned_orders')
-            ->first();
-
         return [
             [
                 'title' => 'Premium Flavor Campaign',
@@ -241,10 +309,6 @@ class StorefrontController extends Controller
             [
                 'title' => 'Retail Expansion Offer',
                 'body' => 'Now available through SIMBA, T2000, and Deluxe Supermarket chains.',
-            ],
-            [
-                'title' => 'Trusted Performance',
-                'body' => 'Paid revenue: ' . number_format((float) ($stats->paid_revenue ?? 0), 2) . ' | Returned orders: ' . number_format((float) ($stats->returned_orders ?? 0), 0),
             ],
         ];
     }
@@ -266,7 +330,7 @@ class StorefrontController extends Controller
                 return null;
             }
 
-            $price = max((float) $product->sold_units, 1) * 1000;
+            $price = max((float) $product->price, 0);
 
             return [
                 'product' => $product,

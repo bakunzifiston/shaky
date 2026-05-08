@@ -51,6 +51,11 @@
         <div class="mt-5 rounded-xl border border-slate-200 bg-white p-4 text-right">
             <p class="text-sm text-slate-600">Subtotal</p>
             <p class="text-2xl font-semibold">{{ number_format((float) $subtotal, 2) }}</p>
+            @if ($rows->isNotEmpty())
+                <a href="{{ route('storefront.checkout') }}" class="mt-3 inline-flex rounded-lg bg-[#0b4e5b] px-4 py-2 text-sm font-medium text-white hover:bg-[#083f49]">
+                    Proceed to Checkout
+                </a>
+            @endif
         </div>
     </section>
 </x-layouts.storefront>

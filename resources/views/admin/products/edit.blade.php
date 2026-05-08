@@ -5,7 +5,7 @@
             <p class="mt-1 text-sm text-slate-500">Update this product record.</p>
         </div>
 
-        <form method="POST" action="{{ route('admin.products.update', $product) }}" class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <form method="POST" action="{{ route('admin.products.update', $product) }}" enctype="multipart/form-data" class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
             @method('PUT')
             @include('admin.products._form', ['submitLabel' => 'Save Changes'])
         </form>

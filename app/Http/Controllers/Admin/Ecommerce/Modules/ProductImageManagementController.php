@@ -58,6 +58,14 @@ class ProductImageManagementController extends Controller
     {
         $barcode = trim((string) $product->barcode);
         $id = (string) $product->id;
+        $imagePath = trim((string) $product->image_path);
+
+        if ($imagePath !== '') {
+            return [
+                'url' => asset('storage/' . ltrim($imagePath, '/')),
+                'source' => "storage/{$imagePath}",
+            ];
+        }
 
         $publicCandidates = [
             "images/products/{$barcode}.jpg",
@@ -95,7 +103,7 @@ class ProductImageManagementController extends Controller
         foreach ($storageCandidates as $relativePath) {
             if (Storage::disk('public')->exists($relativePath)) {
                 return [
-                    'url' => Storage::disk('public')->url($relativePath),
+                    'url' => asset('storage/' . $relativePath),
                     'source' => "storage/{$relativePath}",
                 ];
             }
