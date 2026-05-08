@@ -39,11 +39,25 @@
     <a href="{{ route('admin.sales.index') }}" class="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">Cancel</a>
 </div>
 
+@php
+    $existingItems = old('items', isset($sale)
+        ? $sale->items
+            ->map(fn ($i) => [
+                'product_id' => $i->product_id,
+                'production_id' => $i->production_id,
+                'quantity_sold' => $i->quantity_sold,
+                'unit_price' => $i->unit_price,
+            ])
+            ->values()
+            ->all()
+        : []);
+@endphp
+
 <script>
 (() => {
     const products = @json($products);
     const productions = @json($productions);
-    const existing = @json(old('items', isset($sale) ? $sale->items->map(fn($i)=>['product_id'=>$i->product_id,'production_id'=>$i->production_id,'quantity_sold'=>$i->quantity_sold,'unit_price'=>$i->unit_price])->values()->all() : []));
+    const existing = @json($existingItems);
     const container = document.getElementById('saleItemsRows');
     const addButton = document.getElementById('addItemRow');
     const totalLabel = document.getElementById('invoiceTotal');
