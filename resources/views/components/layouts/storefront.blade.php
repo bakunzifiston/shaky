@@ -9,7 +9,7 @@
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased">
     <div class="min-h-screen">
-        <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
+        <header class="sticky top-0 z-[100] border-b border-slate-200 bg-white/90 backdrop-blur">
             <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
                 <a href="{{ route('storefront.home') }}" class="flex items-center gap-3">
                     <img src="{{ asset('images/shaky-logo.png') }}" alt="SHAKY Ltd" class="h-10 w-10 rounded-lg object-cover">
@@ -28,7 +28,10 @@
                     <a href="{{ route('storefront.wishlist') }}" class="hover:text-[#0b4e5b]">Wishlist</a>
                 </nav>
 
-                <a href="{{ route('admin.login') }}" class="rounded-lg bg-[#0b4e5b] px-4 py-2 text-sm font-medium text-white hover:bg-[#083f49]">
+                <a
+                    href="{{ url('/admin-app/login') }}"
+                    class="relative z-[110] rounded-lg bg-[#0b4e5b] px-4 py-2 text-sm font-medium text-white hover:bg-[#083f49]"
+                >
                     Login
                 </a>
             </div>
