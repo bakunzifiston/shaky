@@ -14,7 +14,6 @@
             <div class="px-4 py-5 border-b border-white/10">
                 <img src="{{ asset('images/shaky-logo.png') }}" alt="Shaky LTD" class="mb-3 h-20 w-20 rounded-xl object-cover ring-1 ring-white/20">
                 <p class="admin-brand-badge">Shaky LTD</p>
-                <h1 class="mt-3 text-lg font-semibold">Admin Panel</h1>
             </div>
 
             <nav class="p-3 space-y-2">
