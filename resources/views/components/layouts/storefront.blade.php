@@ -28,12 +28,21 @@
                     <a href="{{ route('storefront.wishlist') }}" class="hover:text-[#0b4e5b]">Wishlist</a>
                 </nav>
 
-                <a
-                    href="{{ url('/admin-app/login') }}"
-                    class="relative z-[110] rounded-lg bg-[#0b4e5b] px-4 py-2 text-sm font-medium text-white hover:bg-[#083f49]"
-                >
-                    Login
-                </a>
+                @auth
+                    <a
+                        href="{{ route('admin.dashboard') }}"
+                        class="relative z-[110] rounded-lg bg-[#0b4e5b] px-4 py-2 text-sm font-medium text-white hover:bg-[#083f49]"
+                    >
+                        Dashboard
+                    </a>
+                @else
+                    <a
+                        href="{{ route('admin.login') }}"
+                        class="relative z-[110] rounded-lg bg-[#0b4e5b] px-4 py-2 text-sm font-medium text-white hover:bg-[#083f49]"
+                    >
+                        Login
+                    </a>
+                @endauth
             </div>
         </header>
 
