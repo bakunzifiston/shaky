@@ -66,6 +66,7 @@ Route::prefix('admin-app')
             Route::get('/catalog/images', ProductImageManagementController::class)->name('catalog.images');
             Route::get('/catalog/videos', [VideoManagementController::class, 'index'])->name('catalog.videos');
             Route::post('/catalog/videos', [VideoManagementController::class, 'store'])->name('catalog.videos.store');
+            Route::put('/catalog/videos/{video}', [VideoManagementController::class, 'update'])->name('catalog.videos.update');
             Route::delete('/catalog/videos/{video}', [VideoManagementController::class, 'destroy'])->name('catalog.videos.destroy');
 
             Route::get('/customers', EcommerceCustomersController::class)->name('customers');

@@ -91,4 +91,38 @@ class VideoManagementController extends Controller
 
         return back()->with('status', 'Video deleted successfully.');
     }
+
+    public function update(Request $request, StorefrontVideo $video): RedirectResponse
+    {
+        $maxVideoMb = max((int) config('storefront.video_max_mb', 50), 1);
+        $maxVideoKb = $maxVideoMb * 1024;
+
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:120'],
+            'sort_order' => ['nullable', 'integer', 'min:0', 'max:9999'],
+            'is_active' => ['nullable', 'boolean'],
+            'video_file' => ['nullable', 'file', 'mimes:mp4,webm,ogg,mov,qt', "max:{$maxVideoKb}"],
+        ], [
+            'video_file.max' => "Video must be {$maxVideoMb}MB or smaller.",
+            'video_file.mimes' => 'Only MP4, WEBM, OGG, and MOV videos are allowed.',
+        ]);
+
+        $data = [
+            'title' => trim((string) $validated['title']),
+            'sort_order' => (int) ($validated['sort_order'] ?? 0),
+            'is_active' => (bool) ($validated['is_active'] ?? false),
+        ];
+
+        if ($request->hasFile('video_file')) {
+            if ($video->video_path) {
+                Storage::disk('public')->delete($video->video_path);
+            }
+
+            $data['video_path'] = $request->file('video_file')->store('storefront/videos', 'public');
+        }
+
+        $video->update($data);
+
+        return back()->with('status', 'Video updated successfully.');
+    }
 }

@@ -69,11 +69,40 @@
                             </td>
                             <td class="px-4 py-3 text-slate-700">{{ $video->sort_order }}</td>
                             <td class="px-4 py-3">
-                                <form method="POST" action="{{ route('admin.ecommerce.catalog.videos.destroy', $video) }}" onsubmit="return confirm('Delete this video?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-xs font-medium text-rose-700 hover:bg-rose-100">Delete</button>
-                                </form>
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <details class="group">
+                                        <summary class="cursor-pointer list-none rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">
+                                            Edit
+                                        </summary>
+                                        <form method="POST" action="{{ route('admin.ecommerce.catalog.videos.update', $video) }}" enctype="multipart/form-data" class="mt-3 w-72 space-y-2 rounded-lg border border-slate-200 bg-slate-50 p-3">
+                                            @csrf
+                                            @method('PUT')
+                                            <div>
+                                                <label class="mb-1 block text-xs font-medium text-slate-700">Title</label>
+                                                <input name="title" type="text" value="{{ old('title', $video->title) }}" required maxlength="120" class="w-full rounded-lg border border-slate-300 px-2 py-1.5 text-xs">
+                                            </div>
+                                            <div>
+                                                <label class="mb-1 block text-xs font-medium text-slate-700">Sort Order</label>
+                                                <input name="sort_order" type="number" min="0" max="9999" value="{{ old('sort_order', $video->sort_order) }}" class="w-full rounded-lg border border-slate-300 px-2 py-1.5 text-xs">
+                                            </div>
+                                            <div>
+                                                <label class="mb-1 block text-xs font-medium text-slate-700">Replace Video (optional)</label>
+                                                <input name="video_file" type="file" accept=".mp4,.webm,.ogg,.mov,.qt,video/mp4,video/webm,video/ogg,video/quicktime" class="w-full rounded-lg border border-slate-300 px-2 py-1.5 text-xs">
+                                            </div>
+                                            <label class="inline-flex items-center gap-2 text-xs text-slate-700">
+                                                <input type="checkbox" name="is_active" value="1" @checked(old('is_active', $video->is_active)) class="rounded border-slate-300 text-teal-600">
+                                                Show on storefront home page
+                                            </label>
+                                            <button type="submit" class="rounded-lg bg-teal-700 px-2.5 py-1.5 text-xs font-medium text-white hover:bg-teal-800">Save</button>
+                                        </form>
+                                    </details>
+
+                                    <form method="POST" action="{{ route('admin.ecommerce.catalog.videos.destroy', $video) }}" onsubmit="return confirm('Delete this video?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-xs font-medium text-rose-700 hover:bg-rose-100">Delete</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty
