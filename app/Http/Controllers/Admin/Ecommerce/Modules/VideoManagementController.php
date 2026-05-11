@@ -11,7 +11,7 @@ use Illuminate\View\View;
 
 class VideoManagementController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
         $videos = StorefrontVideo::query()
             ->orderBy('sort_order')

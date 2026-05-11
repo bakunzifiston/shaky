@@ -1,14 +1,4 @@
-<x-layouts.admin title="E-Commerce Delivery / Shipping Management">
-    <section class="space-y-6">
-        <header>
-            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">E-Commerce / Fulfillment</p>
-            <h2 class="text-2xl font-semibold text-slate-900">Delivery / Shipping Management</h2>
-            <p class="mt-1 text-sm text-slate-600">
-                Delivery operations board from current order channels, dispatch states, and payment readiness.
-            </p>
-        </header>
-
-        <div class="grid gap-4 md:grid-cols-3">
+<div class="grid gap-4 md:grid-cols-3">
             @forelse ($channelStats as $stat)
                 <article class="rounded-2xl border border-slate-200 bg-white p-4">
                     <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">{{ $stat->sales_channel }}</p>
@@ -26,7 +16,8 @@
             @endforelse
         </div>
 
-        <form method="GET" class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+        <form method="GET" class="admin-filter-panel">
+            <input type="hidden" name="module" value="{{ $hubModule }}">
             <div class="flex flex-wrap items-end gap-3">
                 <div class="w-full max-w-sm">
                     <label for="search" class="mb-1 block text-sm font-medium text-slate-700">Search</label>
@@ -57,53 +48,48 @@
                 </button>
             </div>
         </form>
-
-        <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-            <table class="min-w-full divide-y divide-slate-200 text-sm">
-                <thead class="bg-slate-50">
+        <x-admin.ecommerce-data-table>
+                <thead>
                     @php($nextDirection = $direction === 'asc' ? 'desc' : 'asc')
                     <tr>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">
-                            <a href="{{ route('admin.ecommerce.fulfillment.shipping', array_merge(request()->query(), ['sort' => 'sale_date', 'direction' => $sort === 'sale_date' ? $nextDirection : 'desc'])) }}">Date</a>
+                        <th>
+                            <a class="admin-table-sort" href="{{ route('admin.ecommerce.fulfillment.shipping', array_merge(request()->query(), ['sort' => 'sale_date', 'direction' => $sort === 'sale_date' ? $nextDirection : 'desc'])) }}">Date</a>
                         </th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">
-                            <a href="{{ route('admin.ecommerce.fulfillment.shipping', array_merge(request()->query(), ['sort' => 'sales_id', 'direction' => $sort === 'sales_id' ? $nextDirection : 'asc'])) }}">Order ID</a>
+                        <th>
+                            <a class="admin-table-sort" href="{{ route('admin.ecommerce.fulfillment.shipping', array_merge(request()->query(), ['sort' => 'sales_id', 'direction' => $sort === 'sales_id' ? $nextDirection : 'asc'])) }}">Order ID</a>
                         </th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">
-                            <a href="{{ route('admin.ecommerce.fulfillment.shipping', array_merge(request()->query(), ['sort' => 'customer_name', 'direction' => $sort === 'customer_name' ? $nextDirection : 'asc'])) }}">Customer</a>
+                        <th>
+                            <a class="admin-table-sort" href="{{ route('admin.ecommerce.fulfillment.shipping', array_merge(request()->query(), ['sort' => 'customer_name', 'direction' => $sort === 'customer_name' ? $nextDirection : 'asc'])) }}">Customer</a>
                         </th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">
-                            <a href="{{ route('admin.ecommerce.fulfillment.shipping', array_merge(request()->query(), ['sort' => 'sales_channel', 'direction' => $sort === 'sales_channel' ? $nextDirection : 'asc'])) }}">Channel</a>
+                        <th>
+                            <a class="admin-table-sort" href="{{ route('admin.ecommerce.fulfillment.shipping', array_merge(request()->query(), ['sort' => 'sales_channel', 'direction' => $sort === 'sales_channel' ? $nextDirection : 'asc'])) }}">Channel</a>
                         </th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">Payment</th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">
-                            <a href="{{ route('admin.ecommerce.fulfillment.shipping', array_merge(request()->query(), ['sort' => 'delivery_status', 'direction' => $sort === 'delivery_status' ? $nextDirection : 'asc'])) }}">Delivery</a>
+                        <th>Payment</th>
+                        <th>
+                            <a class="admin-table-sort" href="{{ route('admin.ecommerce.fulfillment.shipping', array_merge(request()->query(), ['sort' => 'delivery_status', 'direction' => $sort === 'delivery_status' ? $nextDirection : 'asc'])) }}">Delivery</a>
                         </th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">Dispatch Priority</th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">Workflow Step</th>
+                        <th>Dispatch Priority</th>
+                        <th>Workflow Step</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                     @forelse ($shipments as $shipment)
                         <tr>
-                            <td class="px-4 py-3 text-slate-700">{{ $shipment->sale_date }}</td>
-                            <td class="px-4 py-3 text-slate-800">{{ $shipment->sales_id }}</td>
-                            <td class="px-4 py-3 text-slate-800">{{ $shipment->customer_name }}</td>
-                            <td class="px-4 py-3 text-slate-700">{{ $shipment->sales_channel ?: '-' }}</td>
-                            <td class="px-4 py-3 text-slate-700">{{ $shipment->payment_status }}</td>
-                            <td class="px-4 py-3 text-slate-700">{{ $shipment->delivery_status }}</td>
-                            <td class="px-4 py-3 text-slate-700">{{ $shipment->dispatch_priority }}</td>
+                            <td>{{ $shipment->sale_date }}</td>
+                            <td>{{ $shipment->sales_id }}</td>
+                            <td>{{ $shipment->customer_name }}</td>
+                            <td>{{ $shipment->sales_channel ?: '-' }}</td>
+                            <td>{{ $shipment->payment_status }}</td>
+                            <td>{{ $shipment->delivery_status }}</td>
+                            <td>{{ $shipment->dispatch_priority }}</td>
                             <td class="px-4 py-3 text-xs text-slate-600">{{ $shipment->workflow_step }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="px-4 py-8 text-center text-slate-500">No shipping records found.</td>
+                            <td colspan="8" class="admin-table-empty">No shipping records found.</td>
                         </tr>
                     @endforelse
                 </tbody>
-            </table>
-        </div>
+        </x-admin.ecommerce-data-table>
 
         {{ $shipments->links() }}
-    </section>
-</x-layouts.admin>

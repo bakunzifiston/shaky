@@ -1,14 +1,5 @@
-<x-layouts.admin title="E-Commerce Inventory Synchronization">
-    <section class="space-y-6">
-        <header>
-            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">E-Commerce / Fulfillment</p>
-            <h2 class="text-2xl font-semibold text-slate-900">Inventory Synchronization</h2>
-            <p class="mt-1 text-sm text-slate-600">
-                Sellable stock cockpit reconciling inventory records, production output, and sold units.
-            </p>
-        </header>
-
-        <form method="GET" class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+<form method="GET" class="admin-filter-panel">
+            <input type="hidden" name="module" value="{{ $hubModule }}">
             <div class="flex flex-wrap items-end gap-3">
                 <div class="w-full max-w-sm">
                     <label for="search" class="mb-1 block text-sm font-medium text-slate-700">Search</label>
@@ -40,55 +31,50 @@
                 </button>
             </div>
         </form>
-
-        <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-            <table class="min-w-full divide-y divide-slate-200 text-sm">
-                <thead class="bg-slate-50">
+        <x-admin.ecommerce-data-table>
+                <thead>
                     @php($nextDirection = $direction === 'asc' ? 'desc' : 'asc')
                     <tr>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">
-                            <a href="{{ route('admin.ecommerce.fulfillment.inventory-sync', array_merge(request()->query(), ['sort' => 'product_name', 'direction' => $sort === 'product_name' ? $nextDirection : 'asc'])) }}">Product</a>
+                        <th>
+                            <a class="admin-table-sort" href="{{ route('admin.ecommerce.fulfillment.inventory-sync', array_merge(request()->query(), ['sort' => 'product_name', 'direction' => $sort === 'product_name' ? $nextDirection : 'asc'])) }}">Product</a>
                         </th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">Barcode</th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">
-                            <a href="{{ route('admin.ecommerce.fulfillment.inventory-sync', array_merge(request()->query(), ['sort' => 'stock_on_hand', 'direction' => $sort === 'stock_on_hand' ? $nextDirection : 'desc'])) }}">Inventory Qty</a>
+                        <th>Barcode</th>
+                        <th>
+                            <a class="admin-table-sort" href="{{ route('admin.ecommerce.fulfillment.inventory-sync', array_merge(request()->query(), ['sort' => 'stock_on_hand', 'direction' => $sort === 'stock_on_hand' ? $nextDirection : 'desc'])) }}">Inventory Qty</a>
                         </th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">
-                            <a href="{{ route('admin.ecommerce.fulfillment.inventory-sync', array_merge(request()->query(), ['sort' => 'finished_goods', 'direction' => $sort === 'finished_goods' ? $nextDirection : 'desc'])) }}">Finished Goods</a>
+                        <th>
+                            <a class="admin-table-sort" href="{{ route('admin.ecommerce.fulfillment.inventory-sync', array_merge(request()->query(), ['sort' => 'finished_goods', 'direction' => $sort === 'finished_goods' ? $nextDirection : 'desc'])) }}">Finished Goods</a>
                         </th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">
-                            <a href="{{ route('admin.ecommerce.fulfillment.inventory-sync', array_merge(request()->query(), ['sort' => 'sold_units', 'direction' => $sort === 'sold_units' ? $nextDirection : 'desc'])) }}">Sold Units</a>
+                        <th>
+                            <a class="admin-table-sort" href="{{ route('admin.ecommerce.fulfillment.inventory-sync', array_merge(request()->query(), ['sort' => 'sold_units', 'direction' => $sort === 'sold_units' ? $nextDirection : 'desc'])) }}">Sold Units</a>
                         </th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">
-                            <a href="{{ route('admin.ecommerce.fulfillment.inventory-sync', array_merge(request()->query(), ['sort' => 'sellable_qty', 'direction' => $sort === 'sellable_qty' ? $nextDirection : 'desc'])) }}">Sellable Qty</a>
+                        <th>
+                            <a class="admin-table-sort" href="{{ route('admin.ecommerce.fulfillment.inventory-sync', array_merge(request()->query(), ['sort' => 'sellable_qty', 'direction' => $sort === 'sellable_qty' ? $nextDirection : 'desc'])) }}">Sellable Qty</a>
                         </th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">
-                            <a href="{{ route('admin.ecommerce.fulfillment.inventory-sync', array_merge(request()->query(), ['sort' => 'sync_gap', 'direction' => $sort === 'sync_gap' ? $nextDirection : 'desc'])) }}">Sync Gap</a>
+                        <th>
+                            <a class="admin-table-sort" href="{{ route('admin.ecommerce.fulfillment.inventory-sync', array_merge(request()->query(), ['sort' => 'sync_gap', 'direction' => $sort === 'sync_gap' ? $nextDirection : 'desc'])) }}">Sync Gap</a>
                         </th>
-                        <th class="px-4 py-3 text-left font-semibold text-slate-600">Status</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                     @forelse ($syncRows as $row)
                         <tr>
-                            <td class="px-4 py-3 text-slate-800">{{ $row->product_name }}</td>
-                            <td class="px-4 py-3 text-slate-700">{{ $row->barcode ?: '-' }}</td>
-                            <td class="px-4 py-3 text-slate-700">{{ number_format((float) $row->stock_on_hand, 2) }}</td>
-                            <td class="px-4 py-3 text-slate-700">{{ number_format((float) $row->finished_goods, 2) }}</td>
-                            <td class="px-4 py-3 text-slate-700">{{ number_format((float) $row->sold_units, 2) }}</td>
-                            <td class="px-4 py-3 text-slate-700">{{ number_format((float) $row->sellable_qty, 2) }}</td>
-                            <td class="px-4 py-3 text-slate-700">{{ number_format((float) $row->sync_gap, 2) }}</td>
-                            <td class="px-4 py-3 text-slate-700">{{ $row->sync_status }}</td>
+                            <td>{{ $row->product_name }}</td>
+                            <td>{{ $row->barcode ?: '-' }}</td>
+                            <td>{{ number_format((float) $row->stock_on_hand, 2) }}</td>
+                            <td>{{ number_format((float) $row->finished_goods, 2) }}</td>
+                            <td>{{ number_format((float) $row->sold_units, 2) }}</td>
+                            <td>{{ number_format((float) $row->sellable_qty, 2) }}</td>
+                            <td>{{ number_format((float) $row->sync_gap, 2) }}</td>
+                            <td>{{ $row->sync_status }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="px-4 py-8 text-center text-slate-500">No synchronization records found.</td>
+                            <td colspan="8" class="admin-table-empty">No synchronization records found.</td>
                         </tr>
                     @endforelse
                 </tbody>
-            </table>
-        </div>
+        </x-admin.ecommerce-data-table>
 
         {{ $syncRows->links() }}
-    </section>
-</x-layouts.admin>

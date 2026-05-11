@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Admin\Ecommerce;
 
+use App\Http\Controllers\Admin\Ecommerce\Concerns\DispatchesEcommerceHub;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CustomersController extends Controller
 {
-    public function __invoke(): View
+    use DispatchesEcommerceHub;
+
+    public function __invoke(Request $request): View
     {
-        return view('admin.ecommerce.customers');
+        return $this->renderEcommerceHub($request, 'customers');
     }
 }

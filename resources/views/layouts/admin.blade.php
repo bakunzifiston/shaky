@@ -53,7 +53,6 @@
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <button id="themeToggle" type="button" class="admin-icon-button" aria-label="Toggle theme">Theme</button>
                     <form method="POST" action="{{ route('admin.logout') }}">
                         @csrf
                         <button type="submit" class="admin-icon-button">Logout</button>
