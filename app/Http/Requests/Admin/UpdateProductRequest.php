@@ -18,6 +18,15 @@ class UpdateProductRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'barcode' => ['nullable', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
+            'compare_at_price' => ['nullable', 'numeric', 'min:0', function (string $attribute, mixed $value, \Closure $fail): void {
+                if ($value === null || $value === '') {
+                    return;
+                }
+                $price = (float) request()->input('price', 0);
+                if ((float) $value <= $price) {
+                    $fail('Compare at price must be higher than the selling price.');
+                }
+            }],
             'description' => ['nullable', 'string', 'max:255'],
             'product_image' => ['nullable', 'image', 'max:5120'],
         ];

@@ -16,8 +16,17 @@ class Product extends Model
         'description',
         'barcode',
         'price',
+        'compare_at_price',
         'image_path',
         // Add any other fields you are saving to the database
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'price' => 'decimal:2',
+            'compare_at_price' => 'decimal:2',
+        ];
+    }
 }
+

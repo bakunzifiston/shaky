@@ -47,14 +47,19 @@ class StorefrontController extends Controller
     {
         $search = trim((string) $request->query('search', ''));
         $category = trim((string) $request->query('category', ''));
-        $sort = (string) $request->query('sort', 'name');
-        $direction = $request->query('direction') === 'desc' ? 'desc' : 'asc';
-        $allowedSorts = ['name', 'type', 'sellable_qty', 'sold_units'];
-        if (!in_array($sort, $allowedSorts, true)) {
-            $sort = 'name';
+        $price_min = trim((string) $request->query('price_min', ''));
+        $price_max = trim((string) $request->query('price_max', ''));
+        $priceMin = $price_min !== '' ? (float) $price_min : null;
+        $priceMax = $price_max !== '' ? (float) $price_max : null;
+        $order = (string) $request->query('order', 'name');
+        $layout = $request->query('layout') === 'list' ? 'list' : 'grid';
+
+        $allowedOrders = ['name', 'newest', 'popular', 'price_asc', 'price_desc'];
+        if (!in_array($order, $allowedOrders, true)) {
+            $order = 'name';
         }
 
-        $products = $this->catalogQuery()
+        $query = $this->catalogQuery()
             ->when($search !== '', function (Builder $query) use ($search): void {
                 $query->where(function (Builder $inner) use ($search): void {
                     $inner->where('products.name', 'like', "%{$search}%")
@@ -63,14 +68,51 @@ class StorefrontController extends Controller
                         ->orWhere('products.barcode', 'like', "%{$search}%");
                 });
             })
-            ->when($category !== '', fn (Builder $query) => $query->where('products.type', $category))
-            ->orderBy($sort, $direction)
-            ->paginate(12)
-            ->withQueryString();
+            ->when($category !== '', fn (Builder $query) => $query->where('products.type', $category));
+
+        if ($priceMin !== null) {
+            $query->where('products.price', '>=', $priceMin);
+        }
+
+        if ($priceMax !== null) {
+            $query->where('products.price', '<=', $priceMax);
+        }
+
+        switch ($order) {
+            case 'newest':
+                $query->orderBy('products.created_at', 'desc')->orderBy('products.name');
+                break;
+            case 'popular':
+                $query->orderByRaw('sold_units DESC')->orderBy('products.name');
+                break;
+            case 'price_asc':
+                $query->orderBy('products.price', 'asc')->orderBy('products.name');
+                break;
+            case 'price_desc':
+                $query->orderBy('products.price', 'desc')->orderBy('products.name');
+                break;
+            default:
+                $query->orderBy('products.name', 'asc');
+                break;
+        }
+
+        $products = $query->paginate(12)->withQueryString();
 
         $categories = Product::query()->select('type')->distinct()->orderBy('type')->pluck('type');
 
-        return view('storefront.shop', compact('products', 'categories', 'search', 'category', 'sort', 'direction'));
+        $bestSellerIds = $this->bestSellers(12)->pluck('id')->all();
+
+        return view('storefront.shop', compact(
+            'products',
+            'categories',
+            'search',
+            'category',
+            'order',
+            'layout',
+            'price_min',
+            'price_max',
+            'bestSellerIds'
+        ));
     }
 
     public function product(Product $product): View

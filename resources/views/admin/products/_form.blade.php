@@ -71,6 +71,21 @@
     </div>
 
     <div>
+        <label for="compare_at_price" class="mb-1 block text-sm font-medium text-slate-700">Compare at price (optional)</label>
+        <input
+            id="compare_at_price"
+            name="compare_at_price"
+            type="number"
+            step="0.01"
+            min="0"
+            value="{{ old('compare_at_price', $product->compare_at_price ?? '') }}"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-teal-600 focus:outline-none"
+        >
+        <p class="mt-1 text-xs text-slate-500">Higher than sale price to show a discount badge on the shop.</p>
+        @error('compare_at_price')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+    </div>
+
+    <div>
         <label for="product_image" class="mb-1 block text-sm font-medium text-slate-700">Product Image</label>
         <input
             id="product_image"
