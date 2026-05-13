@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Ecommerce\Modules;
 
 use App\Http\Controllers\Controller;
-use App\Models\InventoryRecord;
 use App\Models\Product;
 use App\Models\Production;
 use App\Models\SaleItem;
@@ -27,11 +26,6 @@ class ProductManagementController extends Controller
             $sort = 'type';
         }
 
-        $inventorySub = InventoryRecord::query()
-            ->select('product_id', DB::raw('SUM(quantity_in - quantity_out) as stock_on_hand'))
-            ->whereNotNull('product_id')
-            ->groupBy('product_id');
-
         $productionSub = Production::query()
             ->select('product_id', DB::raw('SUM(quantity_produced) as available_finished_goods'))
             ->groupBy('product_id');
@@ -41,11 +35,10 @@ class ProductManagementController extends Controller
             ->groupBy('product_id');
 
         $products = Product::query()
-            ->leftJoinSub($inventorySub, 'inventory_totals', fn ($join) => $join->on('products.id', '=', 'inventory_totals.product_id'))
             ->leftJoinSub($productionSub, 'production_totals', fn ($join) => $join->on('products.id', '=', 'production_totals.product_id'))
             ->leftJoinSub($salesSub, 'sales_totals', fn ($join) => $join->on('products.id', '=', 'sales_totals.product_id'))
             ->select('products.*')
-            ->selectRaw('COALESCE(inventory_totals.stock_on_hand, 0) as stock_on_hand')
+            ->selectRaw('COALESCE(production_totals.available_finished_goods, 0) as stock_on_hand')
             ->selectRaw('COALESCE(production_totals.available_finished_goods, 0) as available_finished_goods')
             ->selectRaw('COALESCE(sales_totals.sold_units, 0) as sold_units')
             ->when($search !== '', function (Builder $query) use ($search): void {
@@ -57,8 +50,8 @@ class ProductManagementController extends Controller
                 });
             })
             ->when($category !== '', fn (Builder $query) => $query->where('products.type', $category))
-            ->when($stockFilter === 'in_stock', fn (Builder $query) => $query->whereRaw('COALESCE(inventory_totals.stock_on_hand, 0) > 0'))
-            ->when($stockFilter === 'out_of_stock', fn (Builder $query) => $query->whereRaw('COALESCE(inventory_totals.stock_on_hand, 0) <= 0'))
+            ->when($stockFilter === 'in_stock', fn (Builder $query) => $query->whereRaw('COALESCE(production_totals.available_finished_goods, 0) > 0'))
+            ->when($stockFilter === 'out_of_stock', fn (Builder $query) => $query->whereRaw('COALESCE(production_totals.available_finished_goods, 0) <= 0'))
             ->orderBy($sort, $direction)
             ->paginate(15)
             ->withQueryString();

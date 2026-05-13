@@ -91,6 +91,12 @@ class ProductController extends Controller
 
         $product->delete();
 
+        if ($request->filled('from_ecommerce_hub')) {
+            return redirect()
+                ->route('admin.ecommerce.catalog', ['module' => 'products'])
+                ->with('status', 'Product deleted successfully.');
+        }
+
         return redirect()
             ->route('admin.products.index')
             ->with('status', 'Product deleted successfully.');

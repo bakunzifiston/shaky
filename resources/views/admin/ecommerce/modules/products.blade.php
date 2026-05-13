@@ -69,9 +69,21 @@
                             <td>{{ number_format((float) $product->stock_on_hand, 2) }}</td>
                             <td>{{ number_format((float) $product->available_finished_goods, 2) }}</td>
                             <td>{{ number_format((float) $product->sold_units, 2) }}</td>
-                            <td class="admin-table-td-actions">
+                            <td class="admin-table-td-actions !w-auto min-w-[13rem]">
                                 <x-admin.table-actions>
                                     <x-admin.table-action :href="route('admin.products.show', $product)">View</x-admin.table-action>
+                                    <x-admin.table-action :href="route('admin.products.edit', $product)">Edit</x-admin.table-action>
+                                    <form
+                                        method="POST"
+                                        action="{{ route('admin.products.destroy', $product) }}"
+                                        class="inline-flex items-center"
+                                        onsubmit="return confirm('Delete this product?')"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="hidden" name="from_ecommerce_hub" value="1">
+                                        <x-admin.table-action type="submit" variant="danger">Delete</x-admin.table-action>
+                                    </form>
                                 </x-admin.table-actions>
                             </td>
                         </tr>
