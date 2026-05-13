@@ -314,12 +314,13 @@
                         <article class="group overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-4 shadow-sm ring-1 ring-slate-900/[0.04] transition duration-300 hover:shadow-lg lg:col-span-2">
                             <div class="overflow-hidden rounded-xl bg-slate-900">
                                 <video
+                                    id="storefront-home-featured-video"
                                     autoplay
                                     muted
                                     loop
                                     playsinline
                                     controls
-                                    preload="metadata"
+                                    preload="auto"
                                     class="aspect-video w-full object-cover transition duration-300 group-hover:brightness-[1.03]"
                                 >
                                     <source src="{{ asset('storage/' . $featuredVideo->video_path) }}">
@@ -359,6 +360,27 @@
                             @endforeach
                         </div>
                     @endif
+
+                    <script>
+                        (function () {
+                            var el = document.getElementById('storefront-home-featured-video');
+                            if (!el) return;
+                            function tryPlay() {
+                                var p = el.play();
+                                if (p && typeof p.catch === 'function') p.catch(function () {});
+                            }
+                            if (el.readyState >= 2) tryPlay();
+                            else el.addEventListener('canplay', tryPlay, { once: true });
+                            if ('IntersectionObserver' in window) {
+                                var io = new IntersectionObserver(function (entries) {
+                                    entries.forEach(function (e) {
+                                        if (e.isIntersecting) tryPlay();
+                                    });
+                                }, { threshold: 0.2 });
+                                io.observe(el);
+                            }
+                        })();
+                    </script>
                 @endif
             </div>
         </section>
