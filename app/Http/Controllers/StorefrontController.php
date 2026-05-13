@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactSubmission;
-use App\Models\InventoryRecord;
 use App\Models\Product;
 use App\Models\Production;
 use App\Models\SaleItem;
@@ -15,7 +14,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -296,49 +294,19 @@ class StorefrontController extends Controller
             ->select('product_id', DB::raw('SUM(quantity_sold) as sold_units'))
             ->groupBy('product_id');
 
-        $query = Product::query()
+        return Product::query()
             ->leftJoinSub($productionSub, 'production_totals', fn ($join) => $join->on('products.id', '=', 'production_totals.product_id'))
             ->leftJoinSub($salesSub, 'sales_totals', fn ($join) => $join->on('products.id', '=', 'sales_totals.product_id'))
             ->select('products.*')
             ->selectRaw('COALESCE(production_totals.finished_goods, 0) as finished_goods')
-            ->selectRaw('COALESCE(sales_totals.sold_units, 0) as sold_units');
-
-        if (Schema::hasColumn('inventory_records', 'product_id')) {
-            $inventorySub = InventoryRecord::query()
-                ->select('product_id', DB::raw('SUM(quantity_in - quantity_out) as stock_on_hand'))
-                ->whereNotNull('product_id')
-                ->groupBy('product_id');
-
-            $query->leftJoinSub($inventorySub, 'inventory_totals', fn ($join) => $join->on('products.id', '=', 'inventory_totals.product_id'))
-                ->selectRaw('COALESCE(inventory_totals.stock_on_hand, 0) as stock_on_hand')
-                ->selectRaw('
-                    CASE
-                        WHEN
-                            CASE
-                                WHEN COALESCE(inventory_totals.stock_on_hand, 0) < COALESCE(production_totals.finished_goods, 0)
-                                    THEN COALESCE(inventory_totals.stock_on_hand, 0)
-                                ELSE COALESCE(production_totals.finished_goods, 0)
-                            END < 0
-                        THEN 0
-                        ELSE
-                            CASE
-                                WHEN COALESCE(inventory_totals.stock_on_hand, 0) < COALESCE(production_totals.finished_goods, 0)
-                                    THEN COALESCE(inventory_totals.stock_on_hand, 0)
-                                ELSE COALESCE(production_totals.finished_goods, 0)
-                            END
-                    END as sellable_qty
-                ');
-        } else {
-            $query->selectRaw('COALESCE(production_totals.finished_goods, 0) as stock_on_hand')
-                ->selectRaw('
-                    CASE
-                        WHEN COALESCE(production_totals.finished_goods, 0) < 0 THEN 0
-                        ELSE COALESCE(production_totals.finished_goods, 0)
-                    END as sellable_qty
-                ');
-        }
-
-        return $query;
+            ->selectRaw('COALESCE(sales_totals.sold_units, 0) as sold_units')
+            ->selectRaw('COALESCE(production_totals.finished_goods, 0) as stock_on_hand')
+            ->selectRaw('
+                CASE
+                    WHEN COALESCE(production_totals.finished_goods, 0) < 0 THEN 0
+                    ELSE COALESCE(production_totals.finished_goods, 0)
+                END as sellable_qty
+            ');
     }
 
     private function bestSellers(int $limit): Collection
