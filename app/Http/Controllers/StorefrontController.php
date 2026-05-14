@@ -31,9 +31,8 @@ class StorefrontController extends Controller
             ->get();
         $categories = Product::query()->select('type')->distinct()->orderBy('type')->pluck('type');
         $partners = ['SIMBA', 'T2000', 'Deluxe Supermarket'];
-        $promotions = $this->promotionBlocks();
 
-        return view('storefront.home', compact('products', 'bestSellers', 'videos', 'categories', 'partners', 'promotions'));
+        return view('storefront.home', compact('products', 'bestSellers', 'videos', 'categories', 'partners'));
     }
 
     public function about(): View
@@ -318,23 +317,6 @@ class StorefrontController extends Controller
             ->orderByDesc('units_sold')
             ->limit($limit)
             ->get();
-    }
-
-    /**
-     * @return array<int, array{title: string, body: string}>
-     */
-    private function promotionBlocks(): array
-    {
-        return [
-            [
-                'title' => 'Premium Flavor Campaign',
-                'body' => 'Freshly processed chili sauces with consistent premium quality from SHAKY Ltd.',
-            ],
-            [
-                'title' => 'Retail Expansion Offer',
-                'body' => 'Now available through SIMBA, T2000, and Deluxe Supermarket chains.',
-            ],
-        ];
     }
 
     private function hydrateCartRows(Collection $cart): Collection

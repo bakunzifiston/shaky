@@ -78,66 +78,33 @@
             <div class="absolute inset-0 bg-gradient-to-br from-[#0b4e5b]/88 via-[#0b4e5b]/78 to-[#06343d]/92"></div>
 
             <div class="relative mx-auto flex min-h-[min(88vh,44rem)] max-w-7xl flex-col justify-center px-4 py-20 sm:py-24 lg:px-8 lg:py-28">
-                <div class="grid gap-10 lg:grid-cols-12 lg:gap-12 lg:items-center">
-                    <div class="lg:col-span-7">
-                        <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#d1b89c]">Premium chili brand · Kamonyi, Rwanda</p>
-                        <h1 class="mt-4 text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.25rem]">
-                            Flavor you can trust, from farm to bottle
-                        </h1>
-                        <p class="mt-5 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">
-                            SHAKY Ltd produces Neza sauces and chili-infused oil with strict quality control, local sourcing, and packaging built for retail confidence—so every meal gets consistent heat and depth.
-                        </p>
-                        <div class="mt-8 flex flex-wrap gap-3">
-                            <a
-                                href="{{ route('storefront.shop') }}"
-                                class="inline-flex items-center justify-center rounded-lg bg-[#d1b89c] px-6 py-3 text-sm font-semibold text-[#2f2418] shadow-sm transition duration-200 hover:bg-[#c9ab8f] hover:shadow-md active:scale-[0.98]"
-                            >
-                                Shop Neza range
-                            </a>
-                            <a
-                                href="{{ route('storefront.about') }}"
-                                class="inline-flex items-center justify-center rounded-lg border border-white/35 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition duration-200 hover:border-white/50 hover:bg-white/10 active:scale-[0.98]"
-                            >
-                                Our story
-                            </a>
-                            <a
-                                href="{{ route('storefront.contact') }}"
-                                class="inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold text-white/95 underline decoration-white/40 underline-offset-4 transition hover:decoration-white"
-                            >
-                                Partner with us
-                            </a>
-                        </div>
-                        <dl class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6">
-                            <div class="rounded-xl border border-white/15 bg-white/5 px-4 py-3 backdrop-blur-sm transition hover:border-white/25">
-                                <dt class="text-xs font-medium uppercase tracking-wide text-[#d1b89c]/90">Founded</dt>
-                                <dd class="mt-1 text-sm font-semibold">June 2023</dd>
-                            </div>
-                            <div class="rounded-xl border border-white/15 bg-white/5 px-4 py-3 backdrop-blur-sm transition hover:border-white/25">
-                                <dt class="text-xs font-medium uppercase tracking-wide text-[#d1b89c]/90">First launch</dt>
-                                <dd class="mt-1 text-sm font-semibold">Neza Chill · Jan 2024</dd>
-                            </div>
-                            <div class="col-span-2 rounded-xl border border-white/15 bg-white/5 px-4 py-3 backdrop-blur-sm transition hover:border-white/25 sm:col-span-1">
-                                <dt class="text-xs font-medium uppercase tracking-wide text-[#d1b89c]/90">Retail partners</dt>
-                                <dd class="mt-1 text-sm font-semibold">SIMBA · T2000 · Deluxe</dd>
-                            </div>
-                        </dl>
-                    </div>
-
-                    <div class="lg:col-span-5">
-                        <div class="rounded-2xl border border-white/20 bg-white/10 p-6 shadow-lg ring-1 ring-white/10 backdrop-blur-md transition duration-300 hover:border-white/30 hover:bg-white/[0.12]">
-                            <div class="flex items-center justify-between gap-2">
-                                <h2 class="text-lg font-semibold">Featured offers</h2>
-                                <span class="rounded-full bg-[#d1b89c]/25 px-2.5 py-0.5 text-xs font-medium text-[#f5eadc]">Live</span>
-                            </div>
-                            <div class="mt-5 space-y-3">
-                                @foreach ($promotions as $promo)
-                                    <article class="rounded-xl border border-white/10 bg-white/5 p-4 transition duration-200 hover:border-white/20 hover:bg-white/10">
-                                        <h3 class="font-semibold leading-snug">{{ $promo['title'] }}</h3>
-                                        <p class="mt-1.5 text-sm leading-relaxed text-white/85">{{ $promo['body'] }}</p>
-                                    </article>
-                                @endforeach
-                            </div>
-                        </div>
+                <div class="max-w-3xl">
+                    <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#d1b89c]">Premium chili brand · Kamonyi, Rwanda</p>
+                    <h1 class="mt-4 text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.25rem]">
+                        Flavor you can trust, from farm to bottle
+                    </h1>
+                    <p class="mt-5 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">
+                        SHAKY Ltd produces Neza sauces and chili-infused oil with strict quality control, local sourcing, and packaging built for retail confidence—so every meal gets consistent heat and depth.
+                    </p>
+                    <div class="mt-8 flex flex-wrap gap-3">
+                        <a
+                            href="{{ route('storefront.shop') }}"
+                            class="inline-flex items-center justify-center rounded-lg bg-[#d1b89c] px-6 py-3 text-sm font-semibold text-[#2f2418] shadow-sm transition duration-200 hover:bg-[#c9ab8f] hover:shadow-md active:scale-[0.98]"
+                        >
+                            Shop Neza range
+                        </a>
+                        <a
+                            href="{{ route('storefront.about') }}"
+                            class="inline-flex items-center justify-center rounded-lg border border-white/35 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition duration-200 hover:border-white/50 hover:bg-white/10 active:scale-[0.98]"
+                        >
+                            Our story
+                        </a>
+                        <a
+                            href="{{ route('storefront.contact') }}"
+                            class="inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold text-white/95 underline decoration-white/40 underline-offset-4 transition hover:decoration-white"
+                        >
+                            Partner with us
+                        </a>
                     </div>
                 </div>
 
@@ -149,25 +116,45 @@
         </section>
 
         {{-- Mission & vision --}}
-        <section class="border-b border-slate-200/80 bg-[#f8fafc]">
+        <section class="border-b border-slate-200/80 bg-gradient-to-b from-[#e8f4f5] via-[#f8fafc] to-white">
             <div class="mx-auto max-w-7xl px-4 py-16 lg:px-8 lg:py-24">
                 <div class="mx-auto max-w-2xl text-center">
                     <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#0b4e5b]">Purpose</p>
                     <h2 class="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Mission &amp; vision</h2>
-                    <p class="mt-3 text-sm text-slate-600">What we deliver today—and the standard we are building toward.</p>
+                    <p class="mt-3 text-sm leading-relaxed text-slate-600">What we deliver today—and the standard we are building toward.</p>
                 </div>
-                <div class="mt-12 grid gap-6 md:grid-cols-2">
-                    <article class="group rounded-2xl border border-slate-200/90 bg-white p-8 shadow-sm ring-1 ring-slate-900/[0.04] transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
-                        <div class="inline-flex rounded-lg bg-[#0b4e5b]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#0b4e5b]">Mission</div>
-                        <p class="mt-4 text-sm leading-relaxed text-slate-600">
-                            Provide high-quality, flavorful chili products that enhance culinary experiences while supporting local farmers and ensuring sustainable production.
-                        </p>
+                <div class="mt-12 grid gap-6 md:grid-cols-2 lg:gap-8">
+                    <article class="group relative overflow-hidden rounded-2xl border border-[#0b4e5b]/20 bg-gradient-to-br from-white via-white to-[#0b4e5b]/[0.08] p-8 shadow-md shadow-[#0b4e5b]/[0.06] ring-1 ring-[#0b4e5b]/10 transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0b4e5b]/10">
+                        <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[#0b4e5b]/10 blur-2xl transition duration-500 group-hover:bg-[#0b4e5b]/15" aria-hidden="true"></div>
+                        <div class="relative flex flex-col gap-5 sm:flex-row sm:items-start">
+                            <span class="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#0b4e5b] text-white shadow-lg shadow-[#0b4e5b]/30">
+                                <svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 00-1.032 0 11.209 11.209 0 01-7.877 3.08.75.75 0 00-.722.515A12.74 12.74 0 002.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.75.75 0 00.374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 00-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08zm3.034 8.295a.75.75 0 00-1.06-1.06L10.5 14.44l-1.72-1.72a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-4.5z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                            <div class="min-w-0 flex-1">
+                                <h3 class="text-lg font-bold tracking-tight text-[#06343d]">Mission</h3>
+                                <p class="mt-2 text-sm leading-relaxed text-slate-600">
+                                    Provide high-quality, flavorful chili products that enhance culinary experiences while supporting local farmers and ensuring sustainable production.
+                                </p>
+                            </div>
+                        </div>
                     </article>
-                    <article class="group rounded-2xl border border-slate-200/90 bg-white p-8 shadow-sm ring-1 ring-slate-900/[0.04] transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
-                        <div class="inline-flex rounded-lg bg-[#d1b89c]/35 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#2f2418]">Vision</div>
-                        <p class="mt-4 text-sm leading-relaxed text-slate-600">
-                            To become a leading chili processing brand in Rwanda and beyond, known for premium quality and unique flavors.
-                        </p>
+                    <article class="group relative overflow-hidden rounded-2xl border border-[#c4a574]/40 bg-gradient-to-br from-white via-[#faf6f0] to-[#d1b89c]/25 p-8 shadow-md shadow-[#2f2418]/[0.04] ring-1 ring-[#d1b89c]/30 transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#d1b89c]/20">
+                        <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[#d1b89c]/25 blur-2xl transition duration-500 group-hover:bg-[#d1b89c]/35" aria-hidden="true"></div>
+                        <div class="relative flex flex-col gap-5 sm:flex-row sm:items-start">
+                            <span class="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#e8d4bc] to-[#d1b89c] text-[#2f2418] shadow-lg shadow-[#8a7359]/20 ring-1 ring-white/60">
+                                <svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M12 .75a8.25 8.25 0 018.25 8.25c0 3.142-.445 5.056-1.817 6.916a10.17 10.17 0 01-1.022 1.113 6.75 6.75 0 00-1.679 3.786 7.5 7.5 0 11-9.852 0 6.75 6.75 0 00-1.679-3.786 10.17 10.17 0 01-1.022-1.113C2.945 13.081 2.5 11.167 2.5 8A8.25 8.25 0 0112 .75zm2.25 12a.75.75 0 00-1.5 0v2.546a12.037 12.037 0 01-2.25.01V12.75a.75.75 0 00-1.5 0v2.272c-.853.084-1.7.22-2.5.407V18.75h15v-3.573c-.8-.188-1.647-.323-2.5-.407V12.75z" />
+                                </svg>
+                            </span>
+                            <div class="min-w-0 flex-1">
+                                <h3 class="text-lg font-bold tracking-tight text-[#2f2418]">Vision</h3>
+                                <p class="mt-2 text-sm leading-relaxed text-slate-700">
+                                    To become a leading chili processing brand in Rwanda and beyond, known for premium quality and unique flavors.
+                                </p>
+                            </div>
+                        </div>
                     </article>
                 </div>
             </div>
@@ -236,47 +223,61 @@
         </section>
 
         {{-- Value proposition + image --}}
-        <section class="bg-white">
+        <section class="border-y border-slate-200/70 bg-gradient-to-b from-white via-[#f7fbfc] to-white">
             <div class="mx-auto max-w-7xl px-4 py-16 lg:px-8 lg:py-24">
                 <div class="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
-                    <div>
+                    <div class="min-w-0">
                         <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#0b4e5b]">Why SHAKY</p>
-                        <h2 class="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Quality, sourcing, and packaging you can stand behind</h2>
-                        <p class="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
+                        <h2 class="mt-3 max-w-xl text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Quality, sourcing, and packaging you can stand behind</h2>
+                        <p class="mt-4 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base">
                             Standardized recipes, rigorous hygiene, and partnerships with local farmers mean reliable flavor for households and retail shelves alike.
                         </p>
-                        <ul class="mt-8 space-y-4 text-sm text-slate-700">
-                            <li class="flex gap-3">
-                                <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal-100 text-teal-700">
-                                    <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4" aria-hidden="true"><path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.25 7.25a1 1 0 01-1.415 0l-3.25-3.25a1 1 0 111.414-1.42l2.543 2.544 6.543-6.544a1 1 0 011.415 0z" clip-rule="evenodd" /></svg>
+
+                        <ul class="mt-10 grid gap-4 sm:grid-cols-2">
+                            <li class="flex gap-4 rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-sm ring-1 ring-slate-900/[0.03] transition duration-200 hover:border-[#0b4e5b]/25 hover:shadow-md">
+                                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0b4e5b] text-white shadow-md shadow-[#0b4e5b]/20">
+                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.25 7.25a1 1 0 01-1.415 0l-3.25-3.25a1 1 0 111.414-1.42l2.543 2.544 6.543-6.544a1 1 0 011.415 0z" clip-rule="evenodd" /></svg>
                                 </span>
-                                <span><strong class="text-slate-900">Premium quality control</strong> — batch consistency and strict processing standards.</span>
+                                <div class="min-w-0">
+                                    <p class="font-semibold text-slate-900">Premium quality control</p>
+                                    <p class="mt-1 text-sm leading-relaxed text-slate-600">Batch consistency and strict processing standards.</p>
+                                </div>
                             </li>
-                            <li class="flex gap-3">
-                                <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
-                                    <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4" aria-hidden="true"><path d="M10 2a.75.75 0 01.75.75v.783c1.21.087 2.224.46 3.07 1.07.96.692 1.6 1.72 1.944 2.97a.75.75 0 01-1.447.398c-.26-.945-.724-1.675-1.374-2.144-.675-.487-1.552-.76-2.69-.826V6a.75.75 0 11-1.5 0v-.77c-1.07.11-1.916.45-2.558 1.012-.772.675-1.25 1.64-1.457 2.85a.75.75 0 01-1.478-.252c.25-1.47.862-2.73 1.95-3.68.95-.831 2.177-1.298 3.543-1.406V2.75A.75.75 0 0110 2z" /></svg>
+                            <li class="flex gap-4 rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-sm ring-1 ring-slate-900/[0.03] transition duration-200 hover:border-[#c4a574]/40 hover:shadow-md">
+                                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#e8d4bc] to-[#d1b89c] text-[#2f2418] shadow-md shadow-[#8a7359]/15 ring-1 ring-white/50">
+                                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" /></svg>
                                 </span>
-                                <span><strong class="text-slate-900">Locally sourced chili</strong> — freshness and fair impact across the supply chain.</span>
+                                <div class="min-w-0">
+                                    <p class="font-semibold text-slate-900">Locally sourced chili</p>
+                                    <p class="mt-1 text-sm leading-relaxed text-slate-600">Freshness and fair impact across the supply chain.</p>
+                                </div>
                             </li>
-                            <li class="flex gap-3">
-                                <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700">
-                                    <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4" aria-hidden="true"><path d="M10.868 2.884c.321-.772 1.443-.772 1.764 0l1.553 3.735a1 1 0 00.843.616l4.032.323c.833.067 1.17 1.108.536 1.654l-3.072 2.64a1 1 0 00-.323.997l.938 3.935c.194.815-.703 1.46-1.416 1.02l-3.455-2.11a1 1 0 00-1.043 0l-3.455 2.11c-.713.44-1.61-.205-1.416-1.02l.938-3.935a1 1 0 00-.323-.997l-3.072-2.64c-.634-.546-.297-1.587.536-1.654l4.032-.323a1 1 0 00.843-.616l1.553-3.735z" /></svg>
+                            <li class="flex gap-4 rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-sm ring-1 ring-slate-900/[0.03] transition duration-200 hover:border-[#c4a574]/40 hover:shadow-md">
+                                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#e8d4bc] to-[#d1b89c] text-[#2f2418] shadow-md shadow-[#8a7359]/15 ring-1 ring-white/50">
+                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.868 2.884c.321-.772 1.443-.772 1.764 0l1.553 3.735a1 1 0 00.843.616l4.032.323c.833.067 1.17 1.108.536 1.654l-3.072 2.64a1 1 0 00-.323.997l.938 3.935c.194.815-.703 1.46-1.416 1.02l-3.455-2.11a1 1 0 00-1.043 0l-3.455 2.11c-.713.44-1.61-.205-1.416-1.02l.938-3.935a1 1 0 00-.323-.997l-3.072-2.64c-.634-.546-.297-1.587.536-1.654l4.032-.323a1 1 0 00.843-.616l1.553-3.735z" clip-rule="evenodd" /></svg>
                                 </span>
-                                <span><strong class="text-slate-900">Neza product line</strong> — mild, spicy, and oil formats for every kitchen.</span>
+                                <div class="min-w-0">
+                                    <p class="font-semibold text-slate-900">Neza product line</p>
+                                    <p class="mt-1 text-sm leading-relaxed text-slate-600">Mild, spicy, and oil formats for every kitchen.</p>
+                                </div>
                             </li>
-                            <li class="flex gap-3">
-                                <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-100 text-sky-700">
-                                    <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-7.414 7.414a1 1 0 01-1.414 0L3.293 9.536a1 1 0 011.414-1.414l3.879 3.878 6.707-6.707a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                            <li class="flex gap-4 rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-sm ring-1 ring-slate-900/[0.03] transition duration-200 hover:border-[#0b4e5b]/25 hover:shadow-md">
+                                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0b4e5b] text-white shadow-md shadow-[#0b4e5b]/20">
+                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M1.503 4.75A1.75 1.75 0 013.253 3h13.494a1.75 1.75 0 011.75 1.75V15a1.75 1.75 0 01-1.75 1.75H3.253A1.75 1.75 0 011.503 15V4.75zM4.003 5.5a.25.25 0 00-.25.25v8.5c0 .138.112.25.25.25h12.494a.25.25 0 00.25-.25v-8.5a.25.25 0 00-.25-.25H4.003z" clip-rule="evenodd" /><path d="M5.503 7.25a.75.75 0 01.75-.75h7.494a.75.75 0 010 1.5H6.253a.75.75 0 01-.75-.75zm0 3a.75.75 0 01.75-.75h4.494a.75.75 0 010 1.5H6.253a.75.75 0 01-.75-.75z" /></svg>
                                 </span>
-                                <span><strong class="text-slate-900">Safe, attractive packaging</strong> — hygiene and shelf presence built for trust.</span>
+                                <div class="min-w-0">
+                                    <p class="font-semibold text-slate-900">Safe, attractive packaging</p>
+                                    <p class="mt-1 text-sm leading-relaxed text-slate-600">Hygiene and shelf presence built for trust.</p>
+                                </div>
                             </li>
                         </ul>
+
                         <div class="mt-10 flex flex-wrap gap-3">
-                            <a href="{{ route('storefront.shop') }}" class="inline-flex rounded-lg bg-[#0b4e5b] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#083f49] active:scale-[0.98]">Shop now</a>
-                            <a href="{{ route('storefront.contact') }}" class="inline-flex rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-[#0b4e5b]/40 hover:bg-slate-50 active:scale-[0.98]">Request wholesale info</a>
+                            <a href="{{ route('storefront.shop') }}" class="inline-flex rounded-lg bg-[#0b4e5b] px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-[#0b4e5b]/20 transition hover:bg-[#083f49] active:scale-[0.98]">Shop now</a>
+                            <a href="{{ route('storefront.contact') }}" class="inline-flex rounded-lg border border-slate-300/90 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-[#0b4e5b]/35 hover:bg-[#f7fbfc] active:scale-[0.98]">Request wholesale info</a>
                         </div>
                     </div>
-                    <figure class="overflow-hidden rounded-2xl border border-slate-200/90 shadow-lg ring-1 ring-slate-900/[0.06] transition duration-500 hover:shadow-xl">
+                    <figure class="overflow-hidden rounded-2xl border border-[#0b4e5b]/15 bg-[#0b4e5b]/[0.03] shadow-xl shadow-slate-900/10 ring-1 ring-[#0b4e5b]/10 transition duration-500 hover:shadow-2xl">
                         <img
                             src="{{ asset('images/storefront/team.png') }}"
                             alt="SHAKY Ltd team with chili products"
