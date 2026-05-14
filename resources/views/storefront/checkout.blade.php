@@ -19,7 +19,7 @@
             @unless ($rows->isEmpty())
                 <div class="mt-6 flex flex-wrap gap-4 text-xs font-medium uppercase tracking-[0.12em] text-slate-500">
                     <span class="rounded-full bg-white px-3 py-1 ring-1 ring-slate-200">1 Cart</span>
-                    <span class="rounded-full bg-[#0b4e5b] px-3 py-1 text-[#d1b89c]/95 ring-1 ring-[#083f49]">2 Checkout</span>
+                    <span class="rounded-full bg-[#0b4e5b] px-3 py-1 text-[#FFD700]/95 ring-1 ring-[#083f49]">2 Checkout</span>
                     <span class="rounded-full bg-white px-3 py-1 ring-1 ring-slate-200">3 Confirmation</span>
                 </div>
             @endunless
@@ -47,7 +47,7 @@
                 <aside class="order-1 lg:order-2">
                     <div class="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-900/[0.04] lg:sticky lg:top-[5.25rem]">
                         <div class="border-b border-slate-100 bg-gradient-to-br from-[#0b4e5b] to-[#06343d] px-5 py-5 text-white">
-                            <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#d1b89c]/90">Your order</p>
+                            <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#FFD700]/90">Your order</p>
                             <p class="mt-1 text-lg font-semibold">Summary</p>
                         </div>
                         <div class="max-h-[min(50vh,24rem)] space-y-3 overflow-y-auto px-5 py-4 lg:max-h-none lg:overflow-visible">
@@ -245,7 +245,7 @@
 
                         <button
                             type="submit"
-                            class="w-full rounded-xl bg-[#d1b89c] px-6 py-3.5 text-sm font-semibold text-[#2f2418] shadow-md transition hover:bg-[#c9ab8f] active:scale-[0.99] sm:w-auto sm:min-w-[14rem]"
+                            class="w-full rounded-xl bg-[#FFD700] px-6 py-3.5 text-sm font-semibold text-[#2f2418] shadow-md transition hover:bg-[#e6c200] active:scale-[0.99] sm:w-auto sm:min-w-[14rem]"
                         >
                             Place order request · RWF {{ number_format((float) $subtotal, 2) }}
                         </button>

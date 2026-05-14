@@ -5,10 +5,10 @@
 <x-layouts.storefront title="Shop Our Products">
     {{-- Page header / hero --}}
     <section class="relative overflow-hidden border-b border-[#083f49]/30 bg-[#0b4e5b] text-white">
-        <div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#d1b89c]/10 blur-3xl"></div>
+        <div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#FFD700]/10 blur-3xl"></div>
         <div class="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-white/5 blur-3xl"></div>
         <div class="relative mx-auto max-w-7xl px-4 py-12 sm:py-16 lg:px-8">
-            <nav class="text-xs font-medium text-[#d1b89c]/95" aria-label="Breadcrumb">
+            <nav class="text-xs font-medium text-[#FFD700]/95" aria-label="Breadcrumb">
                 <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
                     <li>
                         <a href="{{ route('storefront.home') }}" class="transition hover:text-white">Home</a>

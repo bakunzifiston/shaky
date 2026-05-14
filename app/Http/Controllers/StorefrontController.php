@@ -22,17 +22,17 @@ class StorefrontController extends Controller
     public function home(): View
     {
         $products = $this->catalogQuery()->limit(6)->get();
-        $bestSellers = $this->bestSellers(6);
+        $bestSellers = $this->bestSellerProducts(6);
+        $bestSellerIds = $bestSellers->pluck('id')->all();
         $videos = StorefrontVideo::query()
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->latest('id')
             ->limit(6)
             ->get();
-        $categories = Product::query()->select('type')->distinct()->orderBy('type')->pluck('type');
         $partners = ['SIMBA', 'T2000', 'Deluxe Supermarket'];
 
-        return view('storefront.home', compact('products', 'bestSellers', 'videos', 'categories', 'partners'));
+        return view('storefront.home', compact('products', 'bestSellers', 'bestSellerIds', 'videos', 'partners'));
     }
 
     public function about(): View
@@ -306,6 +306,32 @@ class StorefrontController extends Controller
                     ELSE COALESCE(production_totals.finished_goods, 0)
                 END as sellable_qty
             ');
+    }
+
+    private function bestSellerProducts(int $limit): Collection
+    {
+        $orderedIds = SaleItem::query()
+            ->selectRaw('product_id, SUM(quantity_sold) as units_sold')
+            ->groupBy('product_id')
+            ->orderByDesc('units_sold')
+            ->limit($limit)
+            ->pluck('product_id')
+            ->map(fn ($id) => (int) $id)
+            ->all();
+
+        if ($orderedIds === []) {
+            return collect();
+        }
+
+        $byId = $this->catalogQuery()
+            ->whereIn('products.id', $orderedIds)
+            ->get()
+            ->keyBy('id');
+
+        return collect($orderedIds)
+            ->map(fn (int $id) => $byId->get($id))
+            ->filter()
+            ->values();
     }
 
     private function bestSellers(int $limit): Collection

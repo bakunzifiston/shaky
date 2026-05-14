@@ -79,7 +79,7 @@
 
             <div class="relative mx-auto flex min-h-[min(88vh,44rem)] max-w-7xl flex-col justify-center px-4 py-20 sm:py-24 lg:px-8 lg:py-28">
                 <div class="max-w-3xl">
-                    <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#d1b89c]">Premium chili brand · Kamonyi, Rwanda</p>
+                    <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#FFD700]">Premium chili brand · Kamonyi, Rwanda</p>
                     <h1 class="mt-4 text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.25rem]">
                         Flavor you can trust, from farm to bottle
                     </h1>
@@ -89,7 +89,7 @@
                     <div class="mt-8 flex flex-wrap gap-3">
                         <a
                             href="{{ route('storefront.shop') }}"
-                            class="inline-flex items-center justify-center rounded-lg bg-[#d1b89c] px-6 py-3 text-sm font-semibold text-[#2f2418] shadow-sm transition duration-200 hover:bg-[#c9ab8f] hover:shadow-md active:scale-[0.98]"
+                            class="inline-flex items-center justify-center rounded-lg bg-[#FFD700] px-6 py-3 text-sm font-semibold text-[#2f2418] shadow-sm transition duration-200 hover:bg-[#e6c200] hover:shadow-md active:scale-[0.98]"
                         >
                             Shop Neza range
                         </a>
@@ -116,7 +116,7 @@
         </section>
 
         {{-- Mission & vision --}}
-        <section class="border-b border-slate-200/80 bg-gradient-to-b from-[#e8f4f5] via-[#f8fafc] to-white">
+        <section class="border-b border-[#0b4e5b]/10 bg-gradient-to-b from-[#e6f3f4] via-[#eef6f7] to-[#f6fbfc]">
             <div class="mx-auto max-w-7xl px-4 py-16 lg:px-8 lg:py-24">
                 <div class="mx-auto max-w-2xl text-center">
                     <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#0b4e5b]">Purpose</p>
@@ -140,10 +140,10 @@
                             </div>
                         </div>
                     </article>
-                    <article class="group relative overflow-hidden rounded-2xl border border-[#c4a574]/40 bg-gradient-to-br from-white via-[#faf6f0] to-[#d1b89c]/25 p-8 shadow-md shadow-[#2f2418]/[0.04] ring-1 ring-[#d1b89c]/30 transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#d1b89c]/20">
-                        <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[#d1b89c]/25 blur-2xl transition duration-500 group-hover:bg-[#d1b89c]/35" aria-hidden="true"></div>
+                    <article class="group relative overflow-hidden rounded-2xl border border-[#FFD700]/40 bg-gradient-to-br from-white via-[#fffcef] to-[#FFD700]/25 p-8 shadow-md shadow-[#2f2418]/[0.04] ring-1 ring-[#FFD700]/30 transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#FFD700]/20">
+                        <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[#FFD700]/25 blur-2xl transition duration-500 group-hover:bg-[#FFD700]/35" aria-hidden="true"></div>
                         <div class="relative flex flex-col gap-5 sm:flex-row sm:items-start">
-                            <span class="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#e8d4bc] to-[#d1b89c] text-[#2f2418] shadow-lg shadow-[#8a7359]/20 ring-1 ring-white/60">
+                            <span class="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#fff4b8] to-[#FFD700] text-[#2f2418] shadow-lg shadow-[#c9a227]/25 ring-1 ring-white/60">
                                 <svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                     <path d="M12 .75a8.25 8.25 0 018.25 8.25c0 3.142-.445 5.056-1.817 6.916a10.17 10.17 0 01-1.022 1.113 6.75 6.75 0 00-1.679 3.786 7.5 7.5 0 11-9.852 0 6.75 6.75 0 00-1.679-3.786 10.17 10.17 0 01-1.022-1.113C2.945 13.081 2.5 11.167 2.5 8A8.25 8.25 0 0112 .75zm2.25 12a.75.75 0 00-1.5 0v2.546a12.037 12.037 0 01-2.25.01V12.75a.75.75 0 00-1.5 0v2.272c-.853.084-1.7.22-2.5.407V18.75h15v-3.573c-.8-.188-1.647-.323-2.5-.407V12.75z" />
                                 </svg>
@@ -160,31 +160,8 @@
             </div>
         </section>
 
-        {{-- Categories --}}
-        <section class="bg-white">
-            <div class="mx-auto max-w-7xl px-4 py-16 lg:px-8 lg:py-20">
-                <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                    <div>
-                        <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#0b4e5b]">Browse</p>
-                        <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">Product categories</h2>
-                    </div>
-                    <a href="{{ route('storefront.shop') }}" class="text-sm font-semibold text-[#0b4e5b] transition hover:text-[#083f49]">View all products →</a>
-                </div>
-                <div class="mt-10 flex flex-wrap gap-2.5">
-                    @foreach ($categories as $category)
-                        <a
-                            href="{{ route('storefront.shop', ['category' => $category]) }}"
-                            class="rounded-full border border-slate-200 bg-slate-50 px-5 py-2.5 text-sm font-medium text-slate-800 transition duration-200 hover:border-[#0b4e5b]/30 hover:bg-[#0b4e5b]/5 hover:text-[#0b4e5b] active:scale-[0.98]"
-                        >
-                            {{ $category }}
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-
         {{-- Best sellers --}}
-        <section class="border-y border-slate-200/80 bg-slate-50">
+        <section class="border-y border-[#0b4e5b]/10 bg-gradient-to-b from-[#e4f0f2] via-[#ecf5f6] to-[#f2f8f9]">
             <div class="mx-auto max-w-7xl px-4 py-16 lg:px-8 lg:py-24">
                 <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                     <div>
@@ -194,36 +171,19 @@
                     <a href="{{ route('storefront.shop') }}" class="text-sm font-semibold text-[#0b4e5b] transition hover:text-[#083f49]">Shop full catalog →</a>
                 </div>
                 <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    @foreach ($bestSellers as $best)
-                        <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm ring-1 ring-slate-900/[0.04] transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-                            <a href="{{ route('storefront.product', $best->id) }}" class="relative aspect-[4/5] overflow-hidden bg-slate-100">
-                                @if ($best->image_path)
-                                    <img
-                                        src="{{ asset('storage/' . $best->image_path) }}"
-                                        alt="{{ $best->name }}"
-                                        width="600"
-                                        height="750"
-                                        loading="lazy"
-                                        decoding="async"
-                                        class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-                                    >
-                                @else
-                                    <div class="flex h-full w-full items-center justify-center text-xs text-slate-500">No image</div>
-                                @endif
-                            </a>
-                            <div class="flex flex-1 flex-col p-5">
-                                <h3 class="font-semibold text-slate-900">{{ $best->name }}</h3>
-                                <p class="mt-2 text-sm font-medium text-[#0b4e5b]">RWF {{ number_format((float) $best->price, 2) }}</p>
-                                <a href="{{ route('storefront.product', $best->id) }}" class="mt-4 inline-flex text-sm font-semibold text-[#0b4e5b] transition hover:text-[#083f49]">View product</a>
-                            </div>
-                        </article>
-                    @endforeach
+                    @forelse ($bestSellers as $product)
+                        @include('storefront._shop-product-card', ['product' => $product, 'layout' => 'grid', 'bestSellerIds' => $bestSellerIds])
+                    @empty
+                        <div class="col-span-full rounded-2xl border border-dashed border-slate-300 bg-white/80 px-6 py-12 text-center text-sm text-slate-600">
+                            Best sellers will appear here once products have recorded sales.
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </section>
 
         {{-- Value proposition + image --}}
-        <section class="border-y border-slate-200/70 bg-gradient-to-b from-white via-[#f7fbfc] to-white">
+        <section class="border-y border-slate-200/60 bg-gradient-to-b from-white via-[#fafcfd] to-[#eef6f7]">
             <div class="mx-auto max-w-7xl px-4 py-16 lg:px-8 lg:py-24">
                 <div class="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
                     <div class="min-w-0">
@@ -243,8 +203,8 @@
                                     <p class="mt-1 text-sm leading-relaxed text-slate-600">Batch consistency and strict processing standards.</p>
                                 </div>
                             </li>
-                            <li class="flex gap-4 rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-sm ring-1 ring-slate-900/[0.03] transition duration-200 hover:border-[#c4a574]/40 hover:shadow-md">
-                                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#e8d4bc] to-[#d1b89c] text-[#2f2418] shadow-md shadow-[#8a7359]/15 ring-1 ring-white/50">
+                            <li class="flex gap-4 rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-sm ring-1 ring-slate-900/[0.03] transition duration-200 hover:border-[#FFD700]/40 hover:shadow-md">
+                                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#fff4b8] to-[#FFD700] text-[#2f2418] shadow-md shadow-[#c9a227]/20 ring-1 ring-white/50">
                                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" /></svg>
                                 </span>
                                 <div class="min-w-0">
@@ -252,8 +212,8 @@
                                     <p class="mt-1 text-sm leading-relaxed text-slate-600">Freshness and fair impact across the supply chain.</p>
                                 </div>
                             </li>
-                            <li class="flex gap-4 rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-sm ring-1 ring-slate-900/[0.03] transition duration-200 hover:border-[#c4a574]/40 hover:shadow-md">
-                                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#e8d4bc] to-[#d1b89c] text-[#2f2418] shadow-md shadow-[#8a7359]/15 ring-1 ring-white/50">
+                            <li class="flex gap-4 rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-sm ring-1 ring-slate-900/[0.03] transition duration-200 hover:border-[#FFD700]/40 hover:shadow-md">
+                                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#fff4b8] to-[#FFD700] text-[#2f2418] shadow-md shadow-[#c9a227]/20 ring-1 ring-white/50">
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.868 2.884c.321-.772 1.443-.772 1.764 0l1.553 3.735a1 1 0 00.843.616l4.032.323c.833.067 1.17 1.108.536 1.654l-3.072 2.64a1 1 0 00-.323.997l.938 3.935c.194.815-.703 1.46-1.416 1.02l-3.455-2.11a1 1 0 00-1.043 0l-3.455 2.11c-.713.44-1.61-.205-1.416-1.02l.938-3.935a1 1 0 00-.323-.997l-3.072-2.64c-.634-.546-.297-1.587.536-1.654l4.032-.323a1 1 0 00.843-.616l1.553-3.735z" clip-rule="evenodd" /></svg>
                                 </span>
                                 <div class="min-w-0">
@@ -293,7 +253,7 @@
         </section>
 
         {{-- Videos --}}
-        <section class="border-t border-slate-200/80 bg-[#f8fafc]">
+        <section class="border-t border-[#0b4e5b]/10 bg-gradient-to-b from-[#d8e8eb] via-[#e6f1f3] to-[#f1f7f8]">
             <div class="mx-auto max-w-7xl px-4 py-16 lg:px-8 lg:py-24">
                 <div class="max-w-2xl">
                     <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#0b4e5b]">Behind the bottle</p>
@@ -301,7 +261,7 @@
                     <p class="mt-3 text-sm leading-relaxed text-slate-600">Production highlights, events, and product moments from SHAKY Ltd.</p>
                 </div>
                 @if ($videos->isEmpty())
-                    <div class="mt-10 rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-sm text-slate-500">
+                    <div class="mt-10 rounded-2xl border border-dashed border-[#0b4e5b]/25 bg-white/90 p-10 text-center text-sm text-slate-600 shadow-sm">
                         Videos will appear here after upload from Admin → E-Commerce → Catalog → Videos.
                     </div>
                 @else
@@ -391,7 +351,7 @@
         </section>
 
         {{-- Featured products --}}
-        <section class="bg-white">
+        <section class="border-t border-[#FFD700]/25 bg-gradient-to-b from-[#fffdf9] via-[#faf6ee] to-[#f4ebe0]">
             <div class="mx-auto max-w-7xl px-4 py-16 lg:px-8 lg:py-24">
                 <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                     <div>
@@ -422,7 +382,6 @@
                                 <h3 class="text-lg font-semibold text-slate-900">{{ $product->name }}</h3>
                                 <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-slate-600">{{ $product->description ?: 'Premium SHAKY chili product.' }}</p>
                                 <p class="mt-3 text-sm font-medium text-[#0b4e5b]">RWF {{ number_format((float) $product->price, 2) }}</p>
-                                <p class="mt-1 text-xs text-slate-500">In stock: {{ number_format((float) $product->sellable_qty, 2) }}</p>
                                 <a href="{{ route('storefront.product', $product->id) }}" class="mt-4 inline-flex text-sm font-semibold text-[#0b4e5b] transition hover:text-[#083f49]">View details</a>
                             </div>
                         </article>
@@ -432,7 +391,7 @@
         </section>
 
         {{-- Testimonials --}}
-        <section class="border-y border-slate-200/80 bg-[#fef7ef]">
+        <section class="border-y border-[#FFD700]/25 bg-gradient-to-b from-[#fdf5eb] via-[#fef7ef] to-[#faf0e4]">
             <div class="mx-auto max-w-7xl px-4 py-16 lg:px-8 lg:py-24">
                 <div class="mx-auto max-w-2xl text-center">
                     <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#0b4e5b]">Social proof</p>
@@ -456,7 +415,7 @@
         </section>
 
         {{-- Partners --}}
-        <section class="bg-white">
+        <section class="border-b border-[#0b4e5b]/10 bg-gradient-to-b from-[#e8f2f4] to-[#f4f9fa]">
             <div class="mx-auto max-w-7xl px-4 py-16 lg:px-8 lg:py-20">
                 <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                     <div>
@@ -466,7 +425,7 @@
                 </div>
                 <div class="mt-10 flex flex-wrap gap-3">
                     @foreach ($partners as $partner)
-                        <span class="rounded-xl border border-slate-200 bg-slate-50 px-5 py-2.5 text-sm font-medium text-slate-800 transition duration-200 hover:border-[#0b4e5b]/25 hover:bg-[#0b4e5b]/[0.04]">{{ $partner }}</span>
+                        <span class="rounded-xl border border-white/80 bg-white/90 px-5 py-2.5 text-sm font-medium text-slate-800 shadow-sm shadow-slate-900/[0.04] transition duration-200 hover:border-[#0b4e5b]/30 hover:bg-white hover:shadow-md">{{ $partner }}</span>
                     @endforeach
                 </div>
             </div>
@@ -482,7 +441,7 @@
                     </p>
                 </div>
                 <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
-                    <a href="{{ route('storefront.shop') }}" class="inline-flex items-center justify-center rounded-lg bg-[#d1b89c] px-6 py-3 text-sm font-semibold text-[#2f2418] shadow-sm transition hover:bg-[#c9ab8f] active:scale-[0.98]">Shop now</a>
+                    <a href="{{ route('storefront.shop') }}" class="inline-flex items-center justify-center rounded-lg bg-[#FFD700] px-6 py-3 text-sm font-semibold text-[#2f2418] shadow-sm transition hover:bg-[#e6c200] active:scale-[0.98]">Shop now</a>
                     <a href="{{ route('storefront.contact') }}" class="inline-flex items-center justify-center rounded-lg border border-white/35 px-6 py-3 text-sm font-semibold transition hover:bg-white/10 active:scale-[0.98]">Contact us</a>
                 </div>
             </div>

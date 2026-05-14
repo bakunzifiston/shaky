@@ -35,7 +35,7 @@
                     <span class="rounded-md bg-[#0b4e5b] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">New</span>
                 @endif
                 @if ($isBestSeller)
-                    <span class="rounded-md bg-[#d1b89c] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#2f2418]">Best seller</span>
+                    <span class="rounded-md bg-[#FFD700] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#2f2418]">Best seller</span>
                 @endif
                 @if ($compare && $discountPct)
                     <span class="rounded-md bg-rose-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">Discount −{{ $discountPct }}%</span>
@@ -59,9 +59,9 @@
                 @endif
                 <span class="text-lg font-bold text-[#0b4e5b]">RWF {{ number_format((float) $product->price, 2) }}</span>
             </div>
-            <p class="mt-1 text-xs font-medium {{ $inStock ? 'text-emerald-700' : 'text-rose-600' }}">
-                {{ $inStock ? 'In stock · ' . number_format((float) $product->sellable_qty, 2) . ' available' : 'Unavailable — check back soon' }}
-            </p>
+            @if (!$inStock)
+                <p class="mt-1 text-xs font-medium text-rose-600">Unavailable — check back soon</p>
+            @endif
             <div class="mt-5 flex flex-wrap gap-2">
                 <form method="POST" action="{{ route('storefront.cart.add', $product->id) }}" class="flex-1 min-w-[8rem]">
                     @csrf
@@ -77,7 +77,7 @@
                     href="{{ route('storefront.product', $product->id) }}"
                     class="inline-flex flex-1 min-w-[8rem] items-center justify-center rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-[#0b4e5b]/30 hover:bg-slate-50"
                 >
-                    View details
+                    View product
                 </a>
                 <form method="POST" action="{{ route('storefront.wishlist.add', $product->id) }}">
                     @csrf
@@ -117,7 +117,7 @@
                     <span class="rounded-md bg-[#0b4e5b] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">New</span>
                 @endif
                 @if ($isBestSeller)
-                    <span class="rounded-md bg-[#d1b89c] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#2f2418]">Best seller</span>
+                    <span class="rounded-md bg-[#FFD700] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#2f2418]">Best seller</span>
                 @endif
                 @if ($compare && $discountPct)
                     <span class="rounded-md bg-rose-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">Discount −{{ $discountPct }}%</span>
@@ -143,9 +143,9 @@
                         <p class="text-sm text-slate-400 line-through">RWF {{ number_format((float) $product->compare_at_price, 2) }}</p>
                     @endif
                     <p class="text-2xl font-bold text-[#0b4e5b]">RWF {{ number_format((float) $product->price, 2) }}</p>
-                    <p class="mt-1 text-xs font-medium {{ $inStock ? 'text-emerald-700' : 'text-rose-600' }}">
-                        {{ $inStock ? 'In stock · ' . number_format((float) $product->sellable_qty, 2) : 'Out of stock' }}
-                    </p>
+                    @if (!$inStock)
+                        <p class="mt-1 text-xs font-medium text-rose-600">Out of stock</p>
+                    @endif
                 </div>
             </div>
             <div class="mt-5 flex flex-wrap gap-2 border-t border-slate-100 pt-5">
@@ -163,7 +163,7 @@
                     href="{{ route('storefront.product', $product->id) }}"
                     class="inline-flex min-w-[10rem] items-center justify-center rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-800 transition hover:border-[#0b4e5b]/30 hover:bg-slate-50"
                 >
-                    View details
+                    View product
                 </a>
                 <form method="POST" action="{{ route('storefront.wishlist.add', $product->id) }}">
                     @csrf

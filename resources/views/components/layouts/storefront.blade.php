@@ -61,10 +61,10 @@
                 <div>
                     <h3 class="text-base font-semibold">Quick Links</h3>
                     <ul class="mt-3 space-y-2 text-sm text-slate-200">
-                        <li><a href="{{ route('storefront.home') }}" class="hover:text-[#d1b89c]">Home</a></li>
-                        <li><a href="{{ route('storefront.about') }}" class="hover:text-[#d1b89c]">About</a></li>
-                        <li><a href="{{ route('storefront.shop') }}" class="hover:text-[#d1b89c]">Shop</a></li>
-                        <li><a href="{{ route('storefront.contact') }}" class="hover:text-[#d1b89c]">Contact Us</a></li>
+                        <li><a href="{{ route('storefront.home') }}" class="hover:text-[#FFD700]">Home</a></li>
+                        <li><a href="{{ route('storefront.about') }}" class="hover:text-[#FFD700]">About</a></li>
+                        <li><a href="{{ route('storefront.shop') }}" class="hover:text-[#FFD700]">Shop</a></li>
+                        <li><a href="{{ route('storefront.contact') }}" class="hover:text-[#FFD700]">Contact Us</a></li>
                     </ul>
                 </div>
                 <div>

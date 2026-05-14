@@ -180,7 +180,7 @@
                 <div class="lg:sticky lg:top-[5.25rem]">
                     <div class="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-900/[0.04]">
                         <div class="border-b border-slate-100 bg-gradient-to-br from-[#0b4e5b] to-[#06343d] px-5 py-5 text-white">
-                            <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#d1b89c]/90">Summary</p>
+                            <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#FFD700]/90">Summary</p>
                             <p class="mt-1 text-lg font-semibold">Order totals</p>
                         </div>
                         <div class="space-y-3 px-5 py-5">
@@ -201,7 +201,7 @@
                             </div>
                             <a
                                 href="{{ route('storefront.checkout') }}"
-                                class="mt-4 flex w-full items-center justify-center rounded-xl bg-[#d1b89c] px-5 py-3.5 text-sm font-semibold text-[#2f2418] shadow-sm transition hover:bg-[#c9ab8f] active:scale-[0.99]"
+                                class="mt-4 flex w-full items-center justify-center rounded-xl bg-[#FFD700] px-5 py-3.5 text-sm font-semibold text-[#2f2418] shadow-sm transition hover:bg-[#e6c200] active:scale-[0.99]"
                             >
                                 Proceed to checkout
                             </a>

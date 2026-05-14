@@ -8,7 +8,7 @@
 <x-layouts.storefront title="Contact Us">
     <section class="relative overflow-hidden border-b border-slate-200/80 bg-[#f8fafc]">
         <div class="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#0b4e5b]/10 blur-3xl"></div>
-        <div class="pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-[#d1b89c]/15 blur-3xl"></div>
+        <div class="pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-[#FFD700]/15 blur-3xl"></div>
         <div class="relative mx-auto max-w-7xl px-4 py-10 sm:py-14 lg:px-8">
             <nav class="text-xs font-medium text-[#0b4e5b]" aria-label="Breadcrumb">
                 <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -46,7 +46,7 @@
             </a>
 
             <div class="flex gap-4 rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm ring-1 ring-slate-900/[0.03]">
-                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#d1b89c]/30 text-[#2f2418]" aria-hidden="true">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#FFD700]/30 text-[#2f2418]" aria-hidden="true">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                 </span>
                 <div class="min-w-0">
@@ -107,7 +107,7 @@
 
                 <div class="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-900/[0.04]">
                     <div class="border-b border-slate-100 bg-gradient-to-br from-[#0b4e5b] to-[#06343d] px-6 py-5 text-white">
-                        <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#d1b89c]/90">Write to us</p>
+                        <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#FFD700]/90">Write to us</p>
                         <h2 class="mt-2 text-xl font-semibold">Send a message</h2>
                         <p class="mt-2 text-sm text-slate-200/95">Partnerships, wholesale, product questions, or support—we read every submission.</p>
                     </div>
@@ -187,7 +187,7 @@
                         </div>
                         <div class="flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
                             <p class="text-xs text-slate-500">By sending this form you agree we may store your details to respond to your inquiry.</p>
-                            <button type="submit" class="inline-flex w-full items-center justify-center rounded-xl bg-[#d1b89c] px-6 py-3 text-sm font-semibold text-[#2f2418] shadow-sm transition hover:bg-[#c9ab8f] active:scale-[0.99] sm:w-auto">
+                            <button type="submit" class="inline-flex w-full items-center justify-center rounded-xl bg-[#FFD700] px-6 py-3 text-sm font-semibold text-[#2f2418] shadow-sm transition hover:bg-[#e6c200] active:scale-[0.99] sm:w-auto">
                                 Send message
                             </button>
                         </div>

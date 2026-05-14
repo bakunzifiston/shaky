@@ -11,7 +11,7 @@
         </div>
         <div class="absolute inset-0 bg-gradient-to-br from-[#0b4e5b]/90 via-[#0b4e5b]/80 to-[#06343d]/95"></div>
         <div class="relative mx-auto max-w-7xl px-4 py-16 sm:py-20 lg:px-8 lg:py-24">
-            <p class="text-sm uppercase tracking-[0.2em] text-[#d1b89c]">Our story</p>
+            <p class="text-sm uppercase tracking-[0.2em] text-[#FFD700]">Our story</p>
             <h1 class="mt-4 max-w-3xl text-4xl font-bold leading-tight sm:text-5xl lg:text-[3.25rem]">
                 About SHAKY Ltd
             </h1>
@@ -21,7 +21,7 @@
             <div class="mt-8 flex flex-wrap gap-3">
                 <a
                     href="{{ route('storefront.shop') }}"
-                    class="rounded-lg bg-[#d1b89c] px-5 py-3 text-sm font-semibold text-[#2f2418] transition hover:bg-[#c9ab8f]"
+                    class="rounded-lg bg-[#FFD700] px-5 py-3 text-sm font-semibold text-[#2f2418] transition hover:bg-[#e6c200]"
                 >
                     Shop our products
                 </a>
@@ -108,7 +108,7 @@
                     </p>
                 </article>
                 <article class="rounded-2xl border border-slate-200 bg-[#fafafa] p-8 shadow-sm">
-                    <div class="inline-flex rounded-lg bg-[#d1b89c]/30 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#2f2418]">Vision</div>
+                    <div class="inline-flex rounded-lg bg-[#FFD700]/30 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#2f2418]">Vision</div>
                     <p class="mt-4 text-sm leading-relaxed text-slate-600">
                         Become a leading chili processing brand in Rwanda and beyond.
                     </p>
@@ -177,7 +177,7 @@
             <div class="flex flex-wrap justify-center gap-3 md:justify-end">
                 <a
                     href="{{ route('storefront.shop') }}"
-                    class="rounded-lg bg-[#d1b89c] px-5 py-3 text-sm font-semibold text-[#2f2418] transition hover:bg-[#c9ab8f]"
+                    class="rounded-lg bg-[#FFD700] px-5 py-3 text-sm font-semibold text-[#2f2418] transition hover:bg-[#e6c200]"
                 >
                     Shop now
                 </a>

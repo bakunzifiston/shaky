@@ -19,7 +19,6 @@
                 <p class="mt-4 text-slate-600">{{ $details->description ?: 'Premium chili product by SHAKY Ltd.' }}</p>
                 <div class="mt-5 space-y-2 text-sm">
                     <p><span class="font-medium">Price:</span> RWF {{ number_format((float) $details->price, 2) }}</p>
-                    <p><span class="font-medium">Stock available:</span> {{ number_format((float) $details->sellable_qty, 2) }}</p>
                     <p><span class="font-medium">Barcode:</span> {{ $details->barcode }}</p>
                 </div>
                 <div class="mt-6 flex gap-3">

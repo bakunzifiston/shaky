@@ -73,7 +73,7 @@
                         @foreach ($monthly_sales_revenue as $i => $value)
                             <div class="flex flex-1 flex-col items-center justify-end">
                                 <p class="mb-1 text-[10px] text-slate-500">{{ number_format((float) $value, 0) }}</p>
-                                <div class="w-full rounded-t bg-[#d1b89c]" style="height: {{ $value > 0 ? max((($value / $maxSales) * 100), 4) : 0 }}%"></div>
+                                <div class="w-full rounded-t bg-[#FFD700]" style="height: {{ $value > 0 ? max((($value / $maxSales) * 100), 4) : 0 }}%"></div>
                                 <p class="mt-1 text-center text-[10px] text-slate-500">{{ $months[$i] }}</p>
                             </div>
                         @endforeach
