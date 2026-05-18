@@ -31,6 +31,11 @@
                 <p class="mt-2 text-sm text-slate-600">Upload short storefront videos and control the order shown on home page.</p>
                 <a href="{{ route('admin.ecommerce.catalog.videos') }}" class="mt-3 inline-flex text-sm font-medium text-sky-700 hover:text-sky-800">Open module</a>
             </article>
+            <article class="rounded-2xl border border-slate-200 bg-white p-5">
+                <h3 class="text-base font-semibold text-slate-900">Gallery</h3>
+                <p class="mt-2 text-sm text-slate-600">Upload photos into albums for the gallery grid on the home page and /gallery.</p>
+                <a href="{{ route('admin.ecommerce.catalog.gallery') }}" class="mt-3 inline-flex text-sm font-medium text-sky-700 hover:text-sky-800">Open module</a>
+            </article>
         </div>
     </section>
 </x-layouts.admin>

@@ -6,6 +6,8 @@ use App\Models\ContactSubmission;
 use App\Models\Product;
 use App\Models\Production;
 use App\Models\SaleItem;
+use App\Models\StorefrontGalleryAlbum;
+use App\Models\StorefrontGalleryPhoto;
 use App\Models\StorefrontVideo;
 use App\Services\SaleWorkflowService;
 use App\Services\StorefrontCheckoutService;
@@ -21,7 +23,6 @@ class StorefrontController extends Controller
 {
     public function home(): View
     {
-        $products = $this->catalogQuery()->limit(6)->get();
         $bestSellers = $this->bestSellerProducts(6);
         $bestSellerIds = $bestSellers->pluck('id')->all();
         $videos = StorefrontVideo::query()
@@ -31,13 +32,34 @@ class StorefrontController extends Controller
             ->limit(6)
             ->get();
         $partners = ['SIMBA', 'T2000', 'Deluxe Supermarket'];
+        $galleryAlbums = $this->homeGalleryAlbums();
 
-        return view('storefront.home', compact('products', 'bestSellers', 'bestSellerIds', 'videos', 'partners'));
+        return view('storefront.home', compact('bestSellers', 'bestSellerIds', 'videos', 'partners', 'galleryAlbums'));
     }
 
     public function about(): View
     {
         return view('storefront.about');
+    }
+
+    public function gallery(): View
+    {
+        $albums = $this->storefrontGalleryAlbumsQuery()->get();
+
+        return view('storefront.gallery', compact('albums'));
+    }
+
+    public function galleryAlbum(StorefrontGalleryAlbum $album): View
+    {
+        abort_unless($album->is_active, 404);
+
+        $album->load(['photos' => fn ($query) => $query
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('id'),
+        ]);
+
+        return view('storefront.gallery-album', compact('album'));
     }
 
     public function shop(Request $request): View
@@ -306,6 +328,81 @@ class StorefrontController extends Controller
                     ELSE COALESCE(production_totals.finished_goods, 0)
                 END as sellable_qty
             ');
+    }
+
+    private function storefrontGalleryAlbumsQuery(): Builder
+    {
+        return StorefrontGalleryAlbum::query()
+            ->where('is_active', true)
+            ->whereHas('photos', fn (Builder $query) => $query->where('is_active', true))
+            ->withCount(['photos as photos_count' => fn (Builder $query) => $query->where('is_active', true)])
+            ->with(['photos' => fn ($query) => $query
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->orderBy('id')
+                ->limit(1),
+            ])
+            ->orderBy('sort_order')
+            ->orderBy('id');
+    }
+
+    private function homeGalleryAlbums(): Collection
+    {
+        $albums = $this->storefrontGalleryAlbumsQuery()->limit(6)->get();
+
+        if ($albums->isNotEmpty()) {
+            return $albums;
+        }
+
+        return $this->fallbackGalleryAlbums();
+    }
+
+    private function fallbackGalleryAlbums(): Collection
+    {
+        return $this->fallbackGalleryPhotos()->map(function (StorefrontGalleryPhoto $photo, int $index) {
+            $album = new StorefrontGalleryAlbum([
+                'title' => $photo->title,
+                'is_active' => true,
+                'sort_order' => $index,
+            ]);
+            $album->setRelation('photos', collect([$photo]));
+            $album->setAttribute('photos_count', 1);
+
+            return $album;
+        });
+    }
+
+    private function fallbackGalleryPhotos(): Collection
+    {
+        return collect([
+            [
+                'title' => 'Our team behind every bottle',
+                'image_path' => 'images/storefront/team.png',
+            ],
+            [
+                'title' => 'Recognition for quality and impact',
+                'image_path' => 'images/storefront/award.png',
+            ],
+            [
+                'title' => 'Sharing our story with partners',
+                'image_path' => 'images/storefront/pitching.png',
+            ],
+            [
+                'title' => 'From production to presentation',
+                'image_path' => 'images/storefront/about-team.png',
+            ],
+            [
+                'title' => 'Events and community engagement',
+                'image_path' => 'images/storefront/about-pitching.png',
+            ],
+        ])->map(function (array $item, int $index) {
+            return new StorefrontGalleryPhoto([
+                'title' => $item['title'],
+                'image_path' => $item['image_path'],
+                'is_active' => true,
+                'sort_order' => $index,
+            ]);
+        });
     }
 
     private function bestSellerProducts(int $limit): Collection

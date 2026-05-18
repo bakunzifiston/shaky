@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [StorefrontController::class, 'home'])->name('storefront.home');
 Route::get('/about', [StorefrontController::class, 'about'])->name('storefront.about');
+Route::get('/gallery', [StorefrontController::class, 'gallery'])->name('storefront.gallery');
+Route::get('/gallery/{album}', [StorefrontController::class, 'galleryAlbum'])->name('storefront.gallery.album');
 Route::get('/shop', [StorefrontController::class, 'shop'])->name('storefront.shop');
 Route::get('/shop/{product}', [StorefrontController::class, 'product'])->name('storefront.product');
 Route::get('/contact', [StorefrontController::class, 'contact'])->name('storefront.contact');

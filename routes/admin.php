@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\Ecommerce\Modules\ProductManagementController;
 use App\Http\Controllers\Admin\Ecommerce\Modules\ReturnManagementController;
 use App\Http\Controllers\Admin\Ecommerce\Modules\ReviewManagementController;
 use App\Http\Controllers\Admin\Ecommerce\Modules\ShippingManagementController;
+use App\Http\Controllers\Admin\Ecommerce\Modules\GalleryManagementController;
 use App\Http\Controllers\Admin\Ecommerce\Modules\VideoManagementController;
 use App\Http\Controllers\Admin\Ecommerce\Modules\VariantManagementController;
 use App\Http\Controllers\Admin\Ecommerce\SalesController as EcommerceSalesController;
@@ -69,6 +70,11 @@ Route::prefix('admin-app')
             Route::post('/catalog/videos', [VideoManagementController::class, 'store'])->name('catalog.videos.store');
             Route::put('/catalog/videos/{video}', [VideoManagementController::class, 'update'])->name('catalog.videos.update');
             Route::delete('/catalog/videos/{video}', [VideoManagementController::class, 'destroy'])->name('catalog.videos.destroy');
+
+            Route::get('/catalog/gallery', fn (Request $request) => redirect()->route('admin.ecommerce.catalog', array_merge($request->query(), ['module' => 'gallery'])))->name('catalog.gallery');
+            Route::post('/catalog/gallery', [GalleryManagementController::class, 'store'])->name('catalog.gallery.store');
+            Route::put('/catalog/gallery/{galleryPhoto}', [GalleryManagementController::class, 'update'])->name('catalog.gallery.update');
+            Route::delete('/catalog/gallery/{galleryPhoto}', [GalleryManagementController::class, 'destroy'])->name('catalog.gallery.destroy');
 
             Route::get('/customers', EcommerceCustomersController::class)->name('customers');
             Route::get('/customers/profiles', fn (Request $request) => redirect()->route('admin.ecommerce.customers', array_merge($request->query(), ['module' => 'profiles'])))->name('customers.profiles');

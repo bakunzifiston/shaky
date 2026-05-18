@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\Ecommerce\Modules\ReturnManagementController;
 use App\Http\Controllers\Admin\Ecommerce\Modules\ReviewManagementController;
 use App\Http\Controllers\Admin\Ecommerce\Modules\ShippingManagementController;
 use App\Http\Controllers\Admin\Ecommerce\Modules\VariantManagementController;
+use App\Http\Controllers\Admin\Ecommerce\Modules\GalleryManagementController;
 use App\Http\Controllers\Admin\Ecommerce\Modules\VideoManagementController;
 
 class EcommerceHub
@@ -57,6 +58,11 @@ class EcommerceHub
                     'videos' => [
                         'label' => 'Videos',
                         'controller' => VideoManagementController::class,
+                        'action' => 'index',
+                    ],
+                    'gallery' => [
+                        'label' => 'Gallery',
+                        'controller' => GalleryManagementController::class,
                         'action' => 'index',
                     ],
                 ],

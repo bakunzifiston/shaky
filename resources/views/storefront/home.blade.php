@@ -350,43 +350,35 @@
             </div>
         </section>
 
-        {{-- Featured products --}}
-        <section class="border-t border-[#FFD700]/25 bg-gradient-to-b from-[#fffdf9] via-[#faf6ee] to-[#f4ebe0]">
-            <div class="mx-auto max-w-7xl px-4 py-16 lg:px-8 lg:py-24">
-                <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                    <div>
-                        <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#0b4e5b]">Spotlight</p>
-                        <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">Featured products</h2>
+        {{-- Gallery --}}
+        <section class="border-y border-slate-200/70 bg-[#f8fafc]">
+            <div class="mx-auto max-w-7xl px-4 py-14 lg:px-8 lg:py-20">
+                <div class="mx-auto max-w-2xl text-center">
+                    <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#0b4e5b]">Behind the brand</p>
+                    <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">Gallery</h2>
+                </div>
+                @if ($galleryAlbums->isNotEmpty())
+                    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        @foreach ($galleryAlbums as $album)
+                            @include('storefront._gallery-album-card', [
+                                'album' => $album,
+                                'albumNumber' => $loop->iteration,
+                            ])
+                        @endforeach
                     </div>
-                    <a href="{{ route('storefront.shop') }}" class="text-sm font-semibold text-[#0b4e5b] transition hover:text-[#083f49]">See everything →</a>
-                </div>
-                <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    @foreach ($products as $product)
-                        <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm ring-1 ring-slate-900/[0.04] transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-                            <a href="{{ route('storefront.product', $product->id) }}" class="relative aspect-[4/5] overflow-hidden bg-slate-100">
-                                @if ($product->image_path)
-                                    <img
-                                        src="{{ asset('storage/' . $product->image_path) }}"
-                                        alt="{{ $product->name }}"
-                                        width="600"
-                                        height="750"
-                                        loading="lazy"
-                                        decoding="async"
-                                        class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-                                    >
-                                @else
-                                    <div class="flex h-full w-full items-center justify-center text-sm text-slate-500">No image</div>
-                                @endif
-                            </a>
-                            <div class="flex flex-1 flex-col p-5">
-                                <h3 class="text-lg font-semibold text-slate-900">{{ $product->name }}</h3>
-                                <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-slate-600">{{ $product->description ?: 'Premium SHAKY chili product.' }}</p>
-                                <p class="mt-3 text-sm font-medium text-[#0b4e5b]">RWF {{ number_format((float) $product->price, 2) }}</p>
-                                <a href="{{ route('storefront.product', $product->id) }}" class="mt-4 inline-flex text-sm font-semibold text-[#0b4e5b] transition hover:text-[#083f49]">View details</a>
-                            </div>
-                        </article>
-                    @endforeach
-                </div>
+                    <div class="mt-10 flex justify-center">
+                        <a
+                            href="{{ route('storefront.gallery') }}"
+                            class="inline-flex items-center rounded-full border border-slate-300 bg-white px-6 py-2.5 text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:bg-slate-50"
+                        >
+                            View full gallery
+                        </a>
+                    </div>
+                @else
+                    <div class="mt-10 rounded-xl border border-dashed border-slate-300/90 bg-white px-6 py-10 text-center text-sm text-slate-500">
+                        Upload photos in Admin → E-Commerce → Catalog → Gallery.
+                    </div>
+                @endif
             </div>
         </section>
 
