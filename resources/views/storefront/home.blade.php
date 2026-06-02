@@ -51,7 +51,7 @@
                     height="1080"
                     fetchpriority="high"
                     decoding="async"
-                    class="hero-slide pointer-events-none absolute inset-0 h-full w-full object-cover"
+                    class="hero-slide pointer-events-none absolute inset-0 h-full w-full object-cover brightness-[1.06] contrast-[1.04]"
                     aria-hidden="true"
                 >
                 <img
@@ -61,7 +61,7 @@
                     height="1080"
                     loading="lazy"
                     decoding="async"
-                    class="hero-slide pointer-events-none absolute inset-0 h-full w-full object-cover"
+                    class="hero-slide pointer-events-none absolute inset-0 h-full w-full object-cover brightness-[1.06] contrast-[1.04]"
                     aria-hidden="true"
                 >
                 <img
@@ -71,11 +71,12 @@
                     height="1080"
                     loading="lazy"
                     decoding="async"
-                    class="hero-slide pointer-events-none absolute inset-0 h-full w-full object-cover"
+                    class="hero-slide pointer-events-none absolute inset-0 h-full w-full object-cover brightness-[1.06] contrast-[1.04]"
                     aria-hidden="true"
                 >
             </div>
-            <div class="absolute inset-0 bg-gradient-to-br from-[#0b4e5b]/88 via-[#0b4e5b]/78 to-[#06343d]/92"></div>
+            <div class="absolute inset-0 bg-black/30" aria-hidden="true"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent" aria-hidden="true"></div>
 
             <div class="relative mx-auto flex min-h-[min(88vh,44rem)] max-w-7xl flex-col justify-center px-4 py-20 sm:py-24 lg:px-8 lg:py-28">
                 <div class="max-w-3xl">
