@@ -41,6 +41,12 @@
             }
         </style>
 
+        @if (session('status'))
+            <div class="border-b border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-sm font-medium text-emerald-800" role="status">
+                {{ session('status') }}
+            </div>
+        @endif
+
         {{-- Hero --}}
         <section class="relative overflow-hidden text-white">
             <div class="absolute inset-0">

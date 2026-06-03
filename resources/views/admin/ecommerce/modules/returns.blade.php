@@ -63,8 +63,8 @@
                             <td>{{ $return->sales_id }}</td>
                             <td>{{ $return->customer_name }}</td>
                             <td>{{ number_format((float) $return->total_revenue, 2) }}</td>
-                            <td>{{ $return->delivery_status }}</td>
-                            <td>{{ $return->payment_status }}</td>
+                            <td><x-admin.sale-status-badge :status="$return->delivery_status" type="delivery" /></td>
+                            <td><x-admin.sale-status-badge :status="$return->payment_status" type="payment" /></td>
                             <td>{{ $return->recommended_action }}</td>
                             <td>{{ number_format((float) $return->estimated_refund, 2) }}</td>
                         </tr>

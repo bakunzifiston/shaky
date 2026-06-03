@@ -12,9 +12,12 @@
             <dl class="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div><dt class="text-sm text-slate-500">Sale ID</dt><dd class="mt-1 text-sm font-medium">{{ $sale->sales_id }}</dd></div>
                 <div><dt class="text-sm text-slate-500">Customer</dt><dd class="mt-1 text-sm font-medium">{{ $sale->customer_name }}</dd></div>
-                <div><dt class="text-sm text-slate-500">Invoice</dt><dd class="mt-1 text-sm font-medium">{{ $sale->invoice_number ?? '—' }}</dd></div>
-                <div><dt class="text-sm text-slate-500">Payment</dt><dd class="mt-1 text-sm font-medium">{{ $sale->payment_status }}</dd></div>
-                <div><dt class="text-sm text-slate-500">Delivery</dt><dd class="mt-1 text-sm font-medium">{{ $sale->delivery_status }}</dd></div>
+                <div><dt class="text-sm text-slate-500">Phone</dt><dd class="mt-1 text-sm font-medium">{{ $sale->customer_Phone ?? '—' }}</dd></div>
+                <div><dt class="text-sm text-slate-500">Email</dt><dd class="mt-1 text-sm font-medium">{{ $sale->barcode ?? '—' }}</dd></div>
+                <div><dt class="text-sm text-slate-500">Channel</dt><dd class="mt-1 text-sm font-medium">{{ $sale->sales_channel ?? '—' }}</dd></div>
+                <div><dt class="text-sm text-slate-500">Invoice / delivery</dt><dd class="mt-1 text-sm font-medium">{{ $sale->invoice_number ?? '—' }}</dd></div>
+                <div><dt class="text-sm text-slate-500">Payment</dt><dd class="mt-1"><x-admin.sale-status-badge :status="$sale->payment_status" type="payment" /></dd></div>
+                <div><dt class="text-sm text-slate-500">Delivery</dt><dd class="mt-1"><x-admin.sale-status-badge :status="$sale->delivery_status" type="delivery" /></dd></div>
                 <div><dt class="text-sm text-slate-500">Revenue</dt><dd class="mt-1 text-sm font-medium">{{ number_format($sale->total_revenue ?? 0, 0) }} RWF</dd></div>
             </dl>
             <div class="mt-6">

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactSubmission;
+use Illuminate\Support\Facades\Log;
 use App\Models\Product;
 use App\Models\Production;
+use App\Models\Sale;
 use App\Models\SaleItem;
 use App\Models\StorefrontGalleryAlbum;
 use App\Models\StorefrontGalleryPhoto;
@@ -285,24 +287,61 @@ class StorefrontController extends Controller
 
         $invoicePayload = trim($validated['address'] . (isset($validated['notes']) && $validated['notes'] !== '' ? ' | ' . $validated['notes'] : ''));
 
-        $sale = $workflow->create([
-            'customer_name' => $validated['name'],
-            'customer_Phone' => $validated['phone'],
-            'barcode' => $validated['email'],
-            'invoice_number' => Str::limit($invoicePayload, 255),
-            'sale_date' => now()->toDateString(),
-            'payment_status' => 'Pending',
-            'delivery_status' => 'Pending',
-            'sales_channel' => 'Online Store',
-            'items' => $items,
+        try {
+            $sale = $workflow->create([
+                'customer_name' => $validated['name'],
+                'customer_Phone' => $validated['phone'],
+                'barcode' => $validated['email'],
+                'invoice_number' => Str::limit($invoicePayload, 255),
+                'sale_date' => now()->toDateString(),
+                'payment_status' => 'Pending',
+                'delivery_status' => 'Pending',
+                'sales_channel' => 'Online Store',
+                'items' => $items,
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('Storefront checkout failed', [
+                'message' => $e->getMessage(),
+                'customer' => $validated['email'] ?? null,
+            ]);
+
+            return back()->withErrors([
+                'checkout' => 'We could not save your order. Please try again or contact us. (' . $e->getMessage() . ')',
+            ])->withInput();
+        }
+
+        $lineSummary = collect($rows)->map(fn (array $row) => ($row['product']->name ?? 'Product') . ' × ' . $row['quantity'])->implode(', ');
+
+        ContactSubmission::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'subject' => 'Website order ' . $sale->sales_id,
+            'message' => "New storefront order.\nReference: {$sale->sales_id}\nItems: {$lineSummary}\nDelivery: {$invoicePayload}\nTotal: RWF " . number_format((float) $sale->total_revenue, 2),
         ]);
 
         session()->forget('storefront_cart');
+        session(['storefront_last_order_id' => $sale->id]);
 
-        return redirect()->route('storefront.home')->with(
+        return redirect()->route('storefront.checkout.thank-you')->with(
             'status',
             'Order placed successfully. Reference: ' . $sale->sales_id . '. Our team will confirm delivery details shortly.'
         );
+    }
+
+    public function checkoutThankYou(): View|RedirectResponse
+    {
+        $saleId = session('storefront_last_order_id');
+        if (!$saleId) {
+            return redirect()->route('storefront.home');
+        }
+
+        $sale = Sale::query()->with(['items.product'])->find($saleId);
+        if (!$sale) {
+            return redirect()->route('storefront.home');
+        }
+
+        return view('storefront.checkout-thank-you', compact('sale'));
     }
 
     private function catalogQuery(): Builder

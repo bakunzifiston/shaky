@@ -25,11 +25,16 @@ class SaleController extends Controller
         $sales = Sale::query()
             ->withCount('items')
             ->when($search !== '', function ($query) use ($search) {
-                $query->where('sales_id', 'like', '%' . $search . '%')
-                    ->orWhere('customer_name', 'like', '%' . $search . '%')
-                    ->orWhere('invoice_number', 'like', '%' . $search . '%');
+                $query->where(function ($inner) use ($search) {
+                    $inner->where('sales_id', 'like', '%' . $search . '%')
+                        ->orWhere('customer_name', 'like', '%' . $search . '%')
+                        ->orWhere('invoice_number', 'like', '%' . $search . '%')
+                        ->orWhere('customer_Phone', 'like', '%' . $search . '%')
+                        ->orWhere('barcode', 'like', '%' . $search . '%')
+                        ->orWhere('sales_channel', 'like', '%' . $search . '%');
+                });
             })
-            ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->paginate(15)
             ->withQueryString();
 

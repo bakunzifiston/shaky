@@ -33,6 +33,55 @@
             <x-admin.kpi-card label="Supplier Balance" :value="number_format($stats['supplier_balance'], 0) . ' RWF'" icon="banknotes" tone="gold" />
         </div>
 
+        <div class="rounded-2xl border border-sky-200 bg-white p-6 shadow-sm">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h3 class="text-base font-semibold text-slate-900">Website orders (Online Store)</h3>
+                    <p class="mt-1 text-sm text-slate-600">
+                        Orders placed through the public shop checkout.
+                        @if (($pending_website_orders_count ?? 0) > 0)
+                            <strong>{{ $pending_website_orders_count }}</strong> awaiting payment confirmation.
+                        @endif
+                    </p>
+                </div>
+                <a href="{{ route('admin.ecommerce.sales', ['module' => 'orders', 'channel' => 'online']) }}" class="inline-flex rounded-lg bg-teal-700 px-4 py-2 text-sm font-medium text-white hover:bg-teal-800">
+                    Open all website orders
+                </a>
+            </div>
+            @if (($recent_website_orders ?? collect())->isNotEmpty())
+                <div class="mt-4 overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-200 text-sm">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th class="px-3 py-2 text-left font-medium text-slate-600">Reference</th>
+                                <th class="px-3 py-2 text-left font-medium text-slate-600">Customer</th>
+                                <th class="px-3 py-2 text-left font-medium text-slate-600">Email</th>
+                                <th class="px-3 py-2 text-left font-medium text-slate-600">Total</th>
+                                <th class="px-3 py-2 text-left font-medium text-slate-600">Placed</th>
+                                <th class="px-3 py-2 text-left font-medium text-slate-600"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach ($recent_website_orders as $order)
+                                <tr>
+                                    <td class="px-3 py-2 font-medium text-slate-900">{{ $order->sales_id }}</td>
+                                    <td class="px-3 py-2">{{ $order->customer_name }}</td>
+                                    <td class="px-3 py-2 text-slate-600">{{ $order->barcode }}</td>
+                                    <td class="px-3 py-2">{{ number_format((float) $order->total_revenue, 0) }} RWF</td>
+                                    <td class="px-3 py-2 text-slate-600">{{ $order->created_at?->format('Y-m-d H:i') }}</td>
+                                    <td class="px-3 py-2">
+                                        <a href="{{ route('admin.sales.show', $order) }}" class="font-medium text-teal-700 hover:text-teal-800">View</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <p class="mt-4 text-sm text-slate-500">No website orders yet. They also appear under E-Commerce → Orders and Core → Sales.</p>
+            @endif
+        </div>
+
         @if (count($production_by_product))
             <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <h3 class="text-sm font-semibold text-slate-800">Production by Product</h3>

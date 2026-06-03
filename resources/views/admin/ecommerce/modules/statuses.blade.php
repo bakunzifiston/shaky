@@ -56,8 +56,8 @@
                             <td>{{ $order->sale_date }}</td>
                             <td>{{ $order->sales_id }}</td>
                             <td>{{ $order->customer_name }}</td>
-                            <td>{{ $order->payment_status }}</td>
-                            <td>{{ $order->delivery_status }}</td>
+                            <td><x-admin.sale-status-badge :status="$order->payment_status" type="payment" /></td>
+                            <td><x-admin.sale-status-badge :status="$order->delivery_status" type="delivery" /></td>
                             <td>{{ $order->status_stage }}</td>
                             <td>{{ $order->aging_days }}</td>
                             <td class="px-4 py-3 text-xs text-slate-600">{{ $order->status_note }}</td>

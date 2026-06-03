@@ -61,8 +61,8 @@
                             <td>{{ $cart->customer_name }}</td>
                             <td>{{ number_format((float) $cart->items_count, 0) }}</td>
                             <td>{{ number_format((float) $cart->cart_total, 2) }}</td>
-                            <td>{{ $cart->payment_status }}</td>
-                            <td>{{ $cart->delivery_status }}</td>
+                            <td><x-admin.sale-status-badge :status="$cart->payment_status" type="payment" /></td>
+                            <td><x-admin.sale-status-badge :status="$cart->delivery_status" type="delivery" /></td>
                         </tr>
                     @empty
                         <tr>

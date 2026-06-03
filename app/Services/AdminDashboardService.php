@@ -62,6 +62,12 @@ class AdminDashboardService
                 'value' => (float) $item->total,
             ])->values()->all();
 
+        $recentWebsiteOrders = Sale::query()
+            ->where('sales_channel', 'Online Store')
+            ->orderByDesc('id')
+            ->limit(8)
+            ->get(['id', 'sales_id', 'customer_name', 'barcode', 'customer_Phone', 'total_revenue', 'payment_status', 'delivery_status', 'sale_date', 'created_at']);
+
         return [
             'period' => $period ?? 'all_time',
             'start_date' => $start?->format('Y-m-d'),
@@ -70,6 +76,11 @@ class AdminDashboardService
             'production_by_product' => $productionByProduct,
             'monthly_production' => $this->monthlyProduction($start, $end),
             'monthly_sales_revenue' => $this->monthlySalesRevenue($start, $end),
+            'recent_website_orders' => $recentWebsiteOrders,
+            'pending_website_orders_count' => Sale::query()
+                ->where('sales_channel', 'Online Store')
+                ->where('payment_status', 'Pending')
+                ->count(),
         ];
     }
 

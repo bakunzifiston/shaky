@@ -81,7 +81,7 @@
                             <td>{{ number_format((float) $paymentRow->total_revenue, 2) }}</td>
                             <td>{{ number_format((float) $paymentRow->outstanding_amount, 2) }}</td>
                             <td>{{ $paymentRow->settlement_priority }}</td>
-                            <td>{{ $paymentRow->payment_status }}</td>
+                            <td><x-admin.sale-status-badge :status="$paymentRow->payment_status" type="payment" /></td>
                         </tr>
                     @empty
                         <tr>

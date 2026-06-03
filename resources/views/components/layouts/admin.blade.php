@@ -67,8 +67,8 @@
                         <x-admin.nav-link :href="route('admin.ecommerce.customers')" :active="request()->routeIs('admin.ecommerce.customers')">
                             Customers
                         </x-admin.nav-link>
-                        <x-admin.nav-link :href="route('admin.ecommerce.sales')" :active="request()->routeIs('admin.ecommerce.sales')">
-                            Sales
+                        <x-admin.nav-link :href="route('admin.ecommerce.sales', ['module' => 'orders', 'channel' => 'online'])" :active="request()->routeIs('admin.ecommerce.sales')">
+                            Orders
                         </x-admin.nav-link>
                         <x-admin.nav-link :href="route('admin.ecommerce.fulfillment')" :active="request()->routeIs('admin.ecommerce.fulfillment')">
                             Fulfillment

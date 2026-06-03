@@ -10,17 +10,24 @@
         </form>
         <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
             <table class="min-w-full divide-y divide-slate-200 text-sm">
-                <thead class="bg-slate-50"><tr><th class="px-3 py-2 text-left">Sale ID</th><th class="px-3 py-2 text-left">Customer</th><th class="px-3 py-2 text-left">Invoice</th><th class="px-3 py-2 text-left">Items</th><th class="px-3 py-2 text-left">Total Revenue</th><th class="px-3 py-2 text-left">Payment</th><th class="px-3 py-2 text-left">Delivery</th><th class="px-3 py-2 text-left">Sale Date</th><th class="px-3 py-2 text-left">Actions</th></tr></thead>
+                <thead class="bg-slate-50"><tr><th class="px-3 py-2 text-left">Sale ID</th><th class="px-3 py-2 text-left">Customer</th><th class="px-3 py-2 text-left">Channel</th><th class="px-3 py-2 text-left">Invoice</th><th class="px-3 py-2 text-left">Items</th><th class="px-3 py-2 text-left">Total Revenue</th><th class="px-3 py-2 text-left">Payment</th><th class="px-3 py-2 text-left">Delivery</th><th class="px-3 py-2 text-left">Sale Date</th><th class="px-3 py-2 text-left">Actions</th></tr></thead>
                 <tbody class="divide-y divide-slate-100">
                     @forelse($sales as $sale)
                         <tr>
                             <td class="px-3 py-2">{{ $sale->sales_id }}</td>
                             <td class="px-3 py-2">{{ $sale->customer_name }}</td>
+                            <td class="px-3 py-2">
+                                @if ($sale->sales_channel === 'Online Store')
+                                    <span class="rounded-full bg-sky-50 px-2 py-0.5 text-xs font-medium text-sky-800 ring-1 ring-sky-200">Online Store</span>
+                                @else
+                                    {{ $sale->sales_channel ?: '—' }}
+                                @endif
+                            </td>
                             <td class="px-3 py-2">{{ $sale->invoice_number }}</td>
                             <td class="px-3 py-2">{{ $sale->items_count }}</td>
                             <td class="px-3 py-2">{{ number_format($sale->total_revenue ?? 0, 0) }} RWF</td>
-                            <td class="px-3 py-2">{{ $sale->payment_status }}</td>
-                            <td class="px-3 py-2">{{ $sale->delivery_status }}</td>
+                            <td class="px-3 py-2"><x-admin.sale-status-badge :status="$sale->payment_status" type="payment" /></td>
+                            <td class="px-3 py-2"><x-admin.sale-status-badge :status="$sale->delivery_status" type="delivery" /></td>
                             <td class="px-3 py-2">{{ \Illuminate\Support\Carbon::parse($sale->sale_date)->format('Y-m-d') }}</td>
                             <td class="px-3 py-2">
                                 <div class="flex items-center gap-2">
@@ -37,7 +44,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="9" class="px-4 py-6 text-center text-slate-500">No sales found.</td></tr>
+                        <tr><td colspan="10" class="px-4 py-6 text-center text-slate-500">No sales found.</td></tr>
                     @endforelse
                 </tbody>
             </table>

@@ -79,8 +79,8 @@
                             <td>{{ $shipment->sales_id }}</td>
                             <td>{{ $shipment->customer_name }}</td>
                             <td>{{ $shipment->sales_channel ?: '-' }}</td>
-                            <td>{{ $shipment->payment_status }}</td>
-                            <td>{{ $shipment->delivery_status }}</td>
+                            <td><x-admin.sale-status-badge :status="$shipment->payment_status" type="payment" /></td>
+                            <td><x-admin.sale-status-badge :status="$shipment->delivery_status" type="delivery" /></td>
                             <td>{{ $shipment->dispatch_priority }}</td>
                             <td class="px-4 py-3 text-xs text-slate-600">{{ $shipment->workflow_step }}</td>
                         </tr>
