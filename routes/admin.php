@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ContactSubmissionController;
+use App\Http\Controllers\Admin\ExpenseCategoryController;
+use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\Ecommerce\AnalyticsController as EcommerceAnalyticsController;
 use App\Http\Controllers\Admin\Ecommerce\CatalogController as EcommerceCatalogController;
@@ -57,6 +59,11 @@ Route::prefix('admin-app')
         Route::resource('inventory-records', InventoryRecordController::class);
         Route::resource('productions', ProductionController::class);
         Route::resource('sales', SaleController::class);
+        Route::resource('expenses', ExpenseController::class)->except(['show']);
+        Route::resource('expenses/categories', ExpenseCategoryController::class)
+            ->except(['show', 'create', 'edit'])
+            ->names('expense-categories')
+            ->parameters(['categories' => 'expense_category']);
         Route::get('/reports', ReportController::class)->name('reports.index');
         Route::resource('contact-submissions', ContactSubmissionController::class)->only(['index', 'show', 'destroy']);
 

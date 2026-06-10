@@ -20,8 +20,28 @@
             @endforeach
         </select>
     </div>
-    <div><label class="mb-1 block text-sm">Quantity In</label><input id="quantity_in" name="quantity_in" type="number" step="0.01" value="{{ old('quantity_in', $inventoryRecord->quantity_in ?? 0) }}" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></div>
-    <div><label class="mb-1 block text-sm">Quantity Out</label><input name="quantity_out" type="number" step="0.01" value="{{ old('quantity_out', $inventoryRecord->quantity_out ?? 0) }}" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></div>
+    <div>
+        <label class="mb-1 block text-sm">Quantity in</label>
+        <input id="quantity_in" name="quantity_in" type="number" step="0.01" min="0" value="{{ old('quantity_in', $inventoryRecord->quantity_in ?? 0) }}" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+        <p class="mt-1 text-xs text-slate-500">Amount received from the supplier.</p>
+    </div>
+    <div>
+        <label class="mb-1 block text-sm">Quantity out</label>
+        @if (isset($inventoryRecord))
+            <input type="text" id="quantity_out_display" readonly value="{{ number_format((float) old('quantity_out', $inventoryRecord->quantity_out ?? 0), 2) }} L" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+            <input type="hidden" id="quantity_out" name="quantity_out" value="{{ old('quantity_out', $inventoryRecord->quantity_out ?? 0) }}">
+            <p class="mt-1 text-xs text-slate-500">Updated automatically when production uses this item.</p>
+        @else
+            <input type="hidden" id="quantity_out" name="quantity_out" value="0">
+            <p class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">0.00 L</p>
+            <p class="mt-1 text-xs text-slate-500">Starts at zero — production increases this when materials are used.</p>
+        @endif
+    </div>
+    <div>
+        <label class="mb-1 block text-sm">On hand</label>
+        <p id="on_hand_preview" class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-teal-800">0.00 L</p>
+        <p class="mt-1 text-xs text-slate-500">In minus out (available stock).</p>
+    </div>
     <div><label class="mb-1 block text-sm">Unit Cost (RWF)</label><input id="unit_cost" name="unit_cost" type="number" step="0.01" value="{{ old('unit_cost', $inventoryRecord->unit_cost ?? '') }}" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></div>
     <div><label class="mb-1 block text-sm">Damaged</label><input name="damaged" type="number" step="0.01" value="{{ old('damaged', $inventoryRecord->damaged ?? 0) }}" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></div>
     <div><label class="mb-1 block text-sm">Storage Location</label><input name="storage_location" value="{{ old('storage_location', $inventoryRecord->storage_location ?? '') }}" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></div>
@@ -49,12 +69,19 @@
     const itemTypeEl = document.getElementById('item_type');
     const productWrap = document.getElementById('productWrap');
     const qtyInEl = document.getElementById('quantity_in');
+    const qtyOutEl = document.getElementById('quantity_out');
+    const onHandEl = document.getElementById('on_hand_preview');
     const totalEl = document.getElementById('total_amount');
     const paidEl = document.getElementById('amount_paid');
     const statusEl = document.getElementById('payment_status');
     const unitCostEl = document.getElementById('unit_cost');
 
     const syncItemType = () => productWrap.style.display = itemTypeEl.value === 'Product' ? 'block' : 'none';
+    const syncOnHand = () => {
+        if (!onHandEl || !qtyInEl || !qtyOutEl) return;
+        const onHand = Math.max(0, parseFloat(qtyInEl.value || 0) - parseFloat(qtyOutEl.value || 0));
+        onHandEl.textContent = onHand.toFixed(2) + ' L';
+    };
     const syncCostAndStatus = () => {
         const qty = parseFloat(qtyInEl.value || 0);
         const total = parseFloat(totalEl.value || 0);
@@ -66,8 +93,10 @@
         else statusEl.value = 'Unpaid';
     };
     syncItemType();
+    syncOnHand();
     syncCostAndStatus();
     itemTypeEl.addEventListener('change', syncItemType);
+    qtyInEl.addEventListener('input', syncOnHand);
     qtyInEl.addEventListener('blur', syncCostAndStatus);
     totalEl.addEventListener('blur', syncCostAndStatus);
     paidEl.addEventListener('blur', syncCostAndStatus);

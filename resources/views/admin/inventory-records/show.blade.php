@@ -14,6 +14,10 @@
                 <div><dt class="text-sm text-slate-500">Invoice</dt><dd class="mt-1 text-sm font-medium">{{ $inventoryRecord->invoice_number ?? '—' }}</dd></div>
                 <div><dt class="text-sm text-slate-500">Item Type</dt><dd class="mt-1 text-sm font-medium">{{ $inventoryRecord->item_type }}</dd></div>
                 <div><dt class="text-sm text-slate-500">Item Name</dt><dd class="mt-1 text-sm font-medium">{{ $inventoryRecord->item_name }}</dd></div>
+                <div><dt class="text-sm text-slate-500">Quantity in</dt><dd class="mt-1 text-sm font-medium">{{ number_format($inventoryRecord->quantity_in, 2) }} L</dd></div>
+                <div><dt class="text-sm text-slate-500">Quantity out</dt><dd class="mt-1 text-sm font-medium">{{ number_format($inventoryRecord->quantity_out, 2) }} L</dd></div>
+                <div><dt class="text-sm text-slate-500">On hand</dt><dd class="mt-1 text-sm font-semibold text-teal-800">{{ number_format($inventoryRecord->remainingQuantity(), 2) }} L</dd></div>
+                <div><dt class="text-sm text-slate-500">Damaged</dt><dd class="mt-1 text-sm font-medium">{{ number_format($inventoryRecord->damaged, 2) }} L</dd></div>
                 <div><dt class="text-sm text-slate-500">Unit Cost</dt><dd class="mt-1 text-sm font-medium">{{ $inventoryRecord->unit_cost ? number_format($inventoryRecord->unit_cost, 0).' RWF' : '-' }}</dd></div>
                 <div><dt class="text-sm text-slate-500">Line Value</dt><dd class="mt-1 text-sm font-medium">{{ number_format($inventoryRecord->line_value, 0) }} RWF</dd></div>
                 <div><dt class="text-sm text-slate-500">Payment Status</dt><dd class="mt-1 text-sm font-medium">{{ $inventoryRecord->payment_status }}</dd></div>

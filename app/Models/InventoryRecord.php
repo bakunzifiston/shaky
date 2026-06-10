@@ -40,13 +40,17 @@ class InventoryRecord extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function remainingQuantity(): float
+    {
+        return max(0, (float) ($this->quantity_in ?? 0) - (float) ($this->quantity_out ?? 0));
+    }
+
     /**
      * Line value for this record (remaining quantity × unit cost).
      */
     public function getLineValueAttribute(): float
     {
-        $qty = ($this->quantity_in ?? 0) - ($this->quantity_out ?? 0);
-        return round($qty * (float) ($this->unit_cost ?? 0), 2);
+        return round($this->remainingQuantity() * (float) ($this->unit_cost ?? 0), 2);
     }
 
     public function getRemainingBalanceAttribute(): float

@@ -17,7 +17,7 @@
             </div>
 
             <nav class="p-3 space-y-2">
-                @php($coreOpen = request()->routeIs('admin.dashboard') || request()->routeIs('admin.users.*') || request()->routeIs('admin.employees.*') || request()->routeIs('admin.products.*') || request()->routeIs('admin.inventory-records.*') || request()->routeIs('admin.productions.*') || request()->routeIs('admin.sales.*') || request()->routeIs('admin.reports.*') || request()->routeIs('admin.contact-submissions.*'))
+                @php($coreOpen = request()->routeIs('admin.dashboard') || request()->routeIs('admin.users.*') || request()->routeIs('admin.employees.*') || request()->routeIs('admin.products.*') || request()->routeIs('admin.inventory-records.*') || request()->routeIs('admin.productions.*') || request()->routeIs('admin.sales.*') || request()->routeIs('admin.expenses.*') || request()->routeIs('admin.expense-categories.*') || request()->routeIs('admin.reports.*') || request()->routeIs('admin.contact-submissions.*'))
                 <details class="admin-nav-group" @if($coreOpen) open @endif>
                     <summary class="admin-nav-group-summary">
                         <span>Core ERP</span>
@@ -41,6 +41,18 @@
                         </x-admin.nav-link>
                         <x-admin.nav-link :href="route('admin.sales.index')" :active="request()->routeIs('admin.sales.*')">
                             Sales
+                        </x-admin.nav-link>
+                        <x-admin.nav-link
+                            :href="route('admin.expenses.index')"
+                            :active="request()->routeIs('admin.expenses.*') || request()->routeIs('admin.expense-categories.*')"
+                        >
+                            <span class="inline-flex items-center gap-2">
+                                <svg viewBox="0 0 24 24" class="h-4 w-4 shrink-0 fill-none stroke-current" stroke-width="1.8" aria-hidden="true">
+                                    <path d="M9 3h6l1 2h4v16H4V5h5l1-2Z" />
+                                    <path d="M8 10h8M8 14h5" />
+                                </svg>
+                                Expenses
+                            </span>
                         </x-admin.nav-link>
                         <x-admin.nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.*')">
                             Reports

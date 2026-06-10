@@ -55,7 +55,7 @@
                 <div>
                     <h3 class="text-base font-semibold">SHAKY Ltd</h3>
                     <p class="mt-3 text-sm text-slate-200">Kamonyi, Rwanda</p>
-                    <p class="mt-2 text-sm text-slate-200">+250 7XX XXX XXX</p>
+                    <a href="tel:+250786931872" class="mt-2 block text-sm text-slate-200 hover:text-[#FFD700]">0786 931 872</a>
                     <p class="mt-2 text-sm text-slate-200">info@shakyltd.rw</p>
                 </div>
                 <div>
@@ -90,6 +90,8 @@
                 </div>
             </div>
         </footer>
+
+        <x-storefront.whatsapp-float />
     </div>
 </body>
 </html>

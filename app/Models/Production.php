@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Exception;
+use Illuminate\Support\Facades\DB;
 
 class Production extends Model
 {
@@ -13,7 +14,7 @@ class Production extends Model
     protected $fillable = [
         'batch_id',
         'product_id',
-        'inventory_record_id', // now stores multiple items with quantities as JSON
+        'inventory_record_id',
         'barcode',
         'quantity_produced',
         'damaged',
@@ -22,7 +23,6 @@ class Production extends Model
         'quality_control_notes',
     ];
 
-    // ✅ Cast JSON to array automatically
     protected $casts = [
         'inventory_record_id' => 'array',
     ];
@@ -37,53 +37,108 @@ class Production extends Model
         return $this->belongsTo(Employee::class);
     }
 
-    /**
-     * ✅ Automatically reduce inventory for each used material
-     */
-    protected static function booted()
+    protected static function booted(): void
     {
-        static::created(function ($production) {
-            $materials = $production->inventory_record_id ?? [];
+        static::creating(function (Production $production): void {
+            if (empty($production->batch_id)) {
+                $last = self::query()->orderByDesc('id')->first();
+                $nextNumber = $last ? ((int) filter_var($last->batch_id, FILTER_SANITIZE_NUMBER_INT) + 1) : 1;
+                $production->batch_id = 'BATCH-' . str_pad((string) $nextNumber, 4, '0', STR_PAD_LEFT);
+            }
+        });
 
-            if (empty($materials) || !is_array($materials)) {
+        static::created(function (Production $production): void {
+            DB::transaction(function () use ($production): void {
+                self::applyMaterials(self::normalizeMaterials($production->inventory_record_id));
+            });
+        });
+
+        static::updated(function (Production $production): void {
+            if (! $production->wasChanged('inventory_record_id')) {
                 return;
             }
 
-            foreach ($materials as $item) {
-                // Expect structure like: { "inventory_id": 5, "quantity_used": 10 }
-                $inventoryId = $item['inventory_id'] ?? null;
-                $usedQty = $item['quantity_used'] ?? 0;
+            DB::transaction(function () use ($production): void {
+                $oldMaterials = self::normalizeMaterials($production->getOriginal('inventory_record_id'));
+                $newMaterials = self::normalizeMaterials($production->inventory_record_id);
 
-                if (!$inventoryId || $usedQty <= 0) {
-                    continue;
+                self::releaseMaterials($oldMaterials);
+
+                try {
+                    self::applyMaterials($newMaterials);
+                } catch (Exception $exception) {
+                    self::applyMaterials($oldMaterials);
+                    throw $exception;
                 }
-
-                $inventory = \App\Models\InventoryRecord::find($inventoryId);
-
-                if (!$inventory) {
-                    continue; // skip invalid IDs
-                }
-
-                if ($usedQty > $inventory->quantity_in) {
-                    throw new Exception("Not enough stock for item: {$inventory->item_name}");
-                }
-
-                // ✅ Deduct the used quantity
-                $inventory->quantity_in -= $usedQty;
-                $inventory->save();
-            }
+            });
         });
 
-        /**
-         * ✅ Automatically generate batch ID if not provided
-         */
-        static::creating(function ($production) {
-            if (empty($production->batch_id)) {
-                // e.g. BATCH-0001, BATCH-0002, ...
-                $last = self::orderBy('id', 'desc')->first();
-                $nextNumber = $last ? ((int) filter_var($last->batch_id, FILTER_SANITIZE_NUMBER_INT) + 1) : 1;
-                $production->batch_id = 'BATCH-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
-            }
+        static::deleting(function (Production $production): void {
+            self::releaseMaterials(self::normalizeMaterials($production->inventory_record_id));
         });
+    }
+
+    /**
+     * @return array<int, array{inventory_id: int|string, quantity_used: float|int|string}>
+     */
+    public static function normalizeMaterials(mixed $materials): array
+    {
+        if (is_string($materials)) {
+            $materials = json_decode($materials, true);
+        }
+
+        return is_array($materials) ? $materials : [];
+    }
+
+    /**
+     * @param  array<int, array<string, mixed>>  $materials
+     */
+    public static function applyMaterials(array $materials): void
+    {
+        foreach ($materials as $item) {
+            $inventoryId = $item['inventory_id'] ?? null;
+            $usedQty = (float) ($item['quantity_used'] ?? 0);
+
+            if (! $inventoryId || $usedQty <= 0) {
+                continue;
+            }
+
+            $inventory = InventoryRecord::query()->lockForUpdate()->find($inventoryId);
+
+            if (! $inventory) {
+                continue;
+            }
+
+            if ($usedQty > $inventory->remainingQuantity()) {
+                throw new Exception("Not enough stock for item: {$inventory->item_name}");
+            }
+
+            $inventory->quantity_out = round((float) $inventory->quantity_out + $usedQty, 2);
+            $inventory->save();
+        }
+    }
+
+    /**
+     * @param  array<int, array<string, mixed>>  $materials
+     */
+    public static function releaseMaterials(array $materials): void
+    {
+        foreach ($materials as $item) {
+            $inventoryId = $item['inventory_id'] ?? null;
+            $usedQty = (float) ($item['quantity_used'] ?? 0);
+
+            if (! $inventoryId || $usedQty <= 0) {
+                continue;
+            }
+
+            $inventory = InventoryRecord::query()->lockForUpdate()->find($inventoryId);
+
+            if (! $inventory) {
+                continue;
+            }
+
+            $inventory->quantity_out = max(0, round((float) $inventory->quantity_out - $usedQty, 2));
+            $inventory->save();
+        }
     }
 }

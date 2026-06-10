@@ -123,7 +123,7 @@ StorefrontGalleryAlbum 1──* StorefrontGalleryPhoto
 
 | Concept | Where it lives | How it changes |
 |---------|----------------|----------------|
-| **Raw materials** | `inventory_records.quantity_in` | Reduced when a **Production** is created (materials JSON on production) |
+| **Raw materials** | `inventory_records.quantity_in` / `quantity_out` | **In** = received; **Out** increases when **Production** uses materials (`quantity_in − quantity_out` = on hand) |
 | **Finished goods (sellable)** | `productions.quantity_produced` per batch | Increased by production; **reduced when a `SaleItem` is created** |
 | **Storefront “in stock”** | Sum of `quantity_produced` on `catalogQuery()` | Not raw inventory |
 

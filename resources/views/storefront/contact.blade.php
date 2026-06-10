@@ -1,7 +1,7 @@
 @php
     /** Update digits if you publish a live line—used for tel: and WhatsApp links. Display text can stay generic. */
-    $phoneDigits = '250788000000';
-    $phoneDisplay = '+250 7XX XXX XXX';
+    $phoneDigits = '250786931872';
+    $phoneDisplay = '0786 931 872';
     $mapsEmbedUrl = 'https://maps.google.com/maps?q=Kamonyi%2C%20Southern%20Province%2C%20Rwanda&hl=en&z=11&output=embed';
 @endphp
 
