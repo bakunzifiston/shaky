@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProductionRequest extends FormRequest
@@ -26,5 +27,14 @@ class UpdateProductionRequest extends FormRequest
             'inventory_record_id.*.inventory_id' => ['required', 'exists:inventory_records,id'],
             'inventory_record_id.*.quantity_used' => ['required', 'numeric', 'gt:0'],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $product = Product::query()->find($this->input('product_id'));
+
+        if ($product?->barcode) {
+            $this->merge(['barcode' => $product->barcode]);
+        }
     }
 }

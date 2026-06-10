@@ -4,7 +4,7 @@
     <div><label class="mb-1 block text-sm">Batch ID</label><input name="batch_id" value="{{ old('batch_id', $production->batch_id ?? '') }}" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></div>
     <div>
         <label class="mb-1 block text-sm">Product</label>
-        <select name="product_id" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+        <select id="product_id" name="product_id" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
             <option value="">Select product</option>
             @foreach($products as $id => $label)
                 <option value="{{ $id }}" @selected((string) old('product_id', $production->product_id ?? '') === (string) $id)>{{ $label }}</option>
@@ -13,17 +13,39 @@
     </div>
     <div>
         <label class="mb-1 block text-sm">Barcode</label>
-        <select name="barcode" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
-            @php($barcodes = ['6784293819719','5781429281069','5675098214278','3078055640615'])
-            @foreach($barcodes as $barcode)
-                <option value="{{ $barcode }}" @selected(old('barcode', $production->barcode ?? '') === $barcode)>{{ $barcode }}</option>
-            @endforeach
-        </select>
+        <input
+            id="barcode"
+            name="barcode"
+            type="text"
+            readonly
+            required
+            value="{{ old('barcode', $production->barcode ?? '') }}"
+            placeholder="Select a product first"
+            class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700"
+        >
+        <p class="mt-1 text-xs text-slate-500">Filled automatically from the selected product.</p>
     </div>
     <div><label class="mb-1 block text-sm">Quantity Produced</label><input name="quantity_produced" type="number" step="0.01" required value="{{ old('quantity_produced', $production->quantity_produced ?? '') }}" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></div>
     <div><label class="mb-1 block text-sm">Damaged</label><input name="damaged" type="number" step="0.01" required value="{{ old('damaged', $production->damaged ?? 0) }}" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></div>
     <div><label class="mb-1 block text-sm">Production Date</label><input name="production_date" type="date" required value="{{ old('production_date', isset($production) && $production->production_date ? \Illuminate\Support\Carbon::parse($production->production_date)->format('Y-m-d') : now()->format('Y-m-d')) }}" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></div>
-    <div><label class="mb-1 block text-sm">Responsible Staff</label><input name="responsible_staff" value="{{ old('responsible_staff', $production->responsible_staff ?? '') }}" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"></div>
+    <div>
+        <label class="mb-1 block text-sm">Responsible Staff</label>
+        @php
+            $selectedStaff = old('responsible_staff', $production->responsible_staff ?? '');
+            $employeeNames = ($employees ?? collect())->pluck('name')->all();
+        @endphp
+        <select name="responsible_staff" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+            <option value="">Select employee</option>
+            @if ($selectedStaff && ! in_array($selectedStaff, $employeeNames, true))
+                <option value="{{ $selectedStaff }}" selected>{{ $selectedStaff }}</option>
+            @endif
+            @foreach ($employees ?? [] as $employee)
+                <option value="{{ $employee->name }}" @selected($selectedStaff === $employee->name)>
+                    {{ $employee->name }}@if ($employee->position) — {{ $employee->position }}@endif
+                </option>
+            @endforeach
+        </select>
+    </div>
     <div class="lg:col-span-2"><label class="mb-1 block text-sm">Quality Control Notes</label><textarea name="quality_control_notes" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">{{ old('quality_control_notes', $production->quality_control_notes ?? '') }}</textarea></div>
 </div>
 
@@ -42,6 +64,25 @@
 
 <script>
 (() => {
+    const productBarcodes = @json($productBarcodes ?? []);
+    const productSelect = document.getElementById('product_id');
+    const barcodeInput = document.getElementById('barcode');
+
+    const syncBarcode = () => {
+        if (!productSelect || !barcodeInput) {
+            return;
+        }
+
+        const barcode = productBarcodes[productSelect.value] || '';
+        barcodeInput.value = barcode;
+        barcodeInput.placeholder = barcode ? '' : 'No barcode on this product';
+    };
+
+    if (productSelect) {
+        productSelect.addEventListener('change', syncBarcode);
+        syncBarcode();
+    }
+
     const options = @json($inventoryOptions);
     const existing = @json(old('inventory_record_id', $production->inventory_record_id ?? []));
     const container = document.getElementById('materialsRows');

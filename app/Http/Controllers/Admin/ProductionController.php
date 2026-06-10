@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreProductionRequest;
 use App\Http\Requests\Admin\UpdateProductionRequest;
+use App\Models\Employee;
 use App\Models\InventoryRecord;
 use App\Models\Product;
 use App\Models\Production;
@@ -39,9 +40,12 @@ class ProductionController extends Controller
     public function create(): View
     {
         $products = Product::orderBy('type')->pluck('type', 'id');
+        $productBarcodes = Product::orderBy('type')->pluck('barcode', 'id');
         $inventoryOptions = InventoryRecord::orderBy('item_name')->pluck('item_name', 'id');
 
-        return view('admin.productions.create', compact('products', 'inventoryOptions'));
+        $employees = Employee::query()->orderBy('name')->get(['id', 'name', 'position', 'employee_id']);
+
+        return view('admin.productions.create', compact('products', 'productBarcodes', 'inventoryOptions', 'employees'));
     }
 
     public function store(StoreProductionRequest $request): RedirectResponse
@@ -60,9 +64,12 @@ class ProductionController extends Controller
     public function edit(Production $production): View
     {
         $products = Product::orderBy('type')->pluck('type', 'id');
+        $productBarcodes = Product::orderBy('type')->pluck('barcode', 'id');
         $inventoryOptions = InventoryRecord::orderBy('item_name')->pluck('item_name', 'id');
 
-        return view('admin.productions.edit', compact('production', 'products', 'inventoryOptions'));
+        $employees = Employee::query()->orderBy('name')->get(['id', 'name', 'position', 'employee_id']);
+
+        return view('admin.productions.edit', compact('production', 'products', 'productBarcodes', 'inventoryOptions', 'employees'));
     }
 
     public function update(UpdateProductionRequest $request, Production $production): RedirectResponse
